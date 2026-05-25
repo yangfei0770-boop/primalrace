@@ -50,7 +50,19 @@ jobs:
           git add news/index.html news/news.db news/urls.txt 2>/dev/null || true
           if git diff --cached --quiet; then
             echo "no changes — skipping commit"
-          else
-            git commit -m "auto: refresh news commentary"
-            git push
+            exit 0
           fi
+          git commit -m "auto: refresh news commentary"
+          # Push with retry: if someone (manual commit or another run) pushed
+          # in the meantime, rebase atop them. On conflicts in binary files
+          # (news.db), prefer our freshly-generated version with `-X ours`.
+          for i in 1 2 3; do
+            if git push; then
+              echo "pushed on attempt $i"
+              exit 0
+            fi
+            echo "push rejected (attempt $i) — rebasing and retrying"
+            git pull --rebase -X ours origin main || git rebase --abort
+          done
+          echo "failed after 3 retries"
+          exit 1
