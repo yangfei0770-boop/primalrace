@@ -43,6 +43,9 @@ RENDERED_HTML = NEWS_DIR / "index.html"
 AUTO_PUBLISH = os.environ.get("PUBLISH_NEW", "0") == "1"
 SKIP_CRAWL = os.environ.get("SKIP_CRAWL", "0") == "1"
 SKIP_PUSH = os.environ.get("SKIP_PUSH", "0") == "1"
+# Cap per cron run so we don't blow past the 30-min Actions timeout.
+# Remaining URLs stay in urls.txt for the next day.
+MAX_PER_RUN = int(os.environ.get("MAX_PER_RUN", "20"))
 
 
 def crawl_bluesky() -> None:
@@ -76,19 +79,19 @@ def main():
             ln.strip() for ln in URLS_FILE.read_text(encoding="utf-8").splitlines()
             if ln.strip() and not ln.strip().startswith("#")
         ]
-        print(f"{len(urls)} URLs in queue")
+        # Skip URLs already in the db so the MAX_PER_RUN cap counts only real work.
+        with connect() as conn:
+            seen = {r["url"] for r in conn.execute("SELECT url FROM articles")}
+        pending = [u for u in urls if u not in seen]
+        print(f"{len(urls)} URLs in queue, {len(pending)} new "
+              f"(processing up to {MAX_PER_RUN} this run)")
+        to_process = pending[:MAX_PER_RUN]
 
         new_ids = []
-        for url in urls:
+        for url in to_process:
             try:
-                with connect() as conn:
-                    existed = conn.execute(
-                        "SELECT id FROM articles WHERE url=?", (url,)
-                    ).fetchone()
-                before = existed["id"] if existed else None
                 aid = process_url(url)
-                if aid != before:
-                    new_ids.append(aid)
+                new_ids.append(aid)
             except Exception as e:
                 print(f"  [error] {url}: {e}", file=sys.stderr)
 
