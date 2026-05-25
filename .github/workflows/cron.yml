@@ -2,7 +2,7 @@ name: Daily news commentary
 
 on:
   schedule:
-    - cron: '0 1 * * *'        # daily 01:00 UTC (= 09:00 北京)
+    - cron: '0 * * * *'        # every hour on the hour
   workflow_dispatch:           # manual trigger from the Actions tab
 
 # allow the workflow to push commits back to the repo
@@ -39,6 +39,7 @@ jobs:
           OLLAMA_MODEL:    gemma4:31b-cloud
           PUBLISH_NEW:     '1'
           SKIP_PUSH:       '1'   # we commit from the workflow step below
+          MAX_PER_RUN:     '10'  # cap per hourly run, rest waits in urls.txt
         working-directory: news
         run: python cron_pipeline.py
 
