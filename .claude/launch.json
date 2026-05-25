@@ -1,0 +1,11 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "blog",
+      "runtimeExecutable": "python3",
+      "runtimeArgs": ["/Users/yang/Desktop/blog/serve.py"],
+      "port": 8765
+    }
+  ]
+}

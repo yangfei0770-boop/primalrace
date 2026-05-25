@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>原初种族 · The Primal Race</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --ink: #1a1109;
+      --paper: #f5f0e8;
+      --accent: #8b1a1a;
+      --accent-light: #b52020;
+      --muted: #6b5c47;
+      --border: #c9bfad;
+    }
+
+    html, body {
+      height: 100%;
+    }
+
+    body {
+      background-color: var(--paper);
+      color: var(--ink);
+      font-family: "Georgia", "Noto Serif SC", "Source Han Serif CN", serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      padding: 2rem;
+    }
+
+    /* Subtle paper texture via gradient */
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background:
+        repeating-linear-gradient(
+          0deg,
+          transparent,
+          transparent 28px,
+          rgba(0,0,0,0.025) 28px,
+          rgba(0,0,0,0.025) 29px
+        );
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .card {
+      position: relative;
+      z-index: 1;
+      max-width: 540px;
+      width: 100%;
+      border: 1px solid var(--border);
+      border-top: 5px solid var(--accent);
+      background: rgba(255,253,248,0.92);
+      padding: 3.5rem 3rem 3rem;
+      box-shadow:
+        0 2px 6px rgba(0,0,0,0.08),
+        0 8px 32px rgba(0,0,0,0.06);
+      text-align: center;
+    }
+
+    .ornament {
+      color: var(--accent);
+      font-size: 1.4rem;
+      letter-spacing: 0.4em;
+      margin-bottom: 1.8rem;
+      display: block;
+    }
+
+    .title-zh {
+      font-size: 3rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      color: var(--ink);
+      line-height: 1.1;
+      margin-bottom: 0.5rem;
+    }
+
+    .title-en {
+      font-size: 1.05rem;
+      font-weight: 400;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 2.2rem;
+    }
+
+    .divider {
+      width: 3rem;
+      height: 1px;
+      background: var(--border);
+      margin: 0 auto 2rem;
+    }
+
+    .meta {
+      font-size: 0.88rem;
+      color: var(--muted);
+      line-height: 2;
+      margin-bottom: 0.5rem;
+    }
+
+    .meta span {
+      color: var(--ink);
+      font-style: italic;
+    }
+
+    .summary {
+      font-size: 0.9rem;
+      color: var(--muted);
+      line-height: 1.85;
+      margin: 1.8rem 0 2.4rem;
+      text-align: justify;
+      border-left: 2px solid var(--border);
+      padding-left: 1rem;
+    }
+
+    .download-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.65rem;
+      background: var(--accent);
+      color: #fff;
+      text-decoration: none;
+      font-family: inherit;
+      font-size: 0.95rem;
+      letter-spacing: 0.08em;
+      padding: 0.85rem 2.4rem;
+      border: none;
+      cursor: pointer;
+      transition: background 0.18s ease, transform 0.12s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .download-btn::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: rgba(255,255,255,0.08);
+      opacity: 0;
+      transition: opacity 0.18s;
+    }
+
+    .download-btn:hover {
+      background: var(--accent-light);
+      transform: translateY(-1px);
+    }
+
+    .download-btn:hover::after { opacity: 1; }
+    .download-btn:active { transform: translateY(0); }
+
+    .download-btn svg {
+      flex-shrink: 0;
+    }
+
+    .file-info {
+      margin-top: 1rem;
+      font-size: 0.78rem;
+      color: var(--border);
+      letter-spacing: 0.05em;
+    }
+
+    .footer-ornament {
+      color: var(--border);
+      font-size: 1rem;
+      letter-spacing: 0.4em;
+      margin-top: 2.5rem;
+      display: block;
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <span class="ornament">✦ &nbsp; ✦ &nbsp; ✦</span>
+
+    <div class="title-zh">原初种族</div>
+    <div class="title-en">The Primal Race</div>
+
+    <div class="divider"></div>
+
+    <p class="meta">作者 / Author &nbsp;·&nbsp; <span>费扬 &nbsp;Yang Fei</span></p>
+    <p class="meta">数据 / Data &nbsp;·&nbsp; <span>Claude</span></p>
+    <p class="meta">翻译 / Translator &nbsp;·&nbsp; <span>Claude &nbsp;+&nbsp; Yang Fei</span></p>
+
+    <p class="summary">
+      本书基于约翰·加尔通的"暴力三角"框架，提出"不公即暴力"的公理化定义，并构建"原初种族理论"——认为生理性别本质上是一个种族问题。女性作为人类历史上被殖民的"原初种族"，遭受了系统性的生物学改变与掠夺，其形成逻辑为后续所有种族构成和暴力提供了蓝图。
+    </p>
+
+    <a class="download-btn" href="原初种族.pdf" download="原初种族.pdf">
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
+           fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+        <polyline points="7 10 12 15 17 10"/>
+        <line x1="12" y1="15" x2="12" y2="3"/>
+      </svg>
+      下载 PDF &nbsp;/&nbsp; Download PDF
+    </a>
+
+    <p class="file-info">PDF · 74 pages · 1.1 MB</p>
+
+    <span class="footer-ornament">― &nbsp; ― &nbsp; ―</span>
+  </div>
+</body>
+</html>
