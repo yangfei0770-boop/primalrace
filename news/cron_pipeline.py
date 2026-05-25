@@ -22,11 +22,14 @@ Required Railway env vars:
   SKIP_CRAWL         (1 = skip Bluesky step; 0 = crawl as normal)
   SKIP_PUSH          (1 = skip git push at end, useful locally)
 """
+from __future__ import annotations
+
 import os
 import shutil
 import subprocess
 import sys
 from pathlib import Path
+from typing import Optional
 
 from dotenv import load_dotenv
 load_dotenv(Path(__file__).parent / ".env")
@@ -138,7 +141,7 @@ def push_to_github() -> None:
         _git_clone_apply_push(token, repo, email, name, branch)
 
 
-def _run(cmd: list[str], cwd: Path, env_extra: dict | None = None) -> None:
+def _run(cmd: list, cwd: Path, env_extra: Optional[dict] = None) -> None:
     env = os.environ.copy()
     if env_extra:
         env.update(env_extra)
