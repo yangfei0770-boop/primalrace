@@ -22,6 +22,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import os
 import sys
 import urllib.parse
 import urllib.request
@@ -186,6 +187,10 @@ def main() -> None:
                     help="posts per account (max 100)")
     ap.add_argument("--max-per-account", type=int, default=3,
                     help="max new URLs to keep per account (default 3)")
+    ap.add_argument("--max-total", type=int,
+                    default=int(os.environ.get("MAX_PER_RUN", "0")),
+                    help="cap total new URLs across all accounts (0 = no cap; "
+                         "respects MAX_PER_RUN env var)")
     ap.add_argument("--out", default="urls.txt",
                     help="append URLs to this file (relative to news/)")
     ap.add_argument("--print", action="store_true",
@@ -199,7 +204,11 @@ def main() -> None:
     found: dict[str, dict] = {}  # url -> {handle}
     stats = {"posts": 0, "new_urls": 0, "filtered_old": 0, "filtered_dom": 0}
 
+    max_total = args.max_total  # 0 = no cap
     for handle in accounts:
+        if max_total and len(found) >= max_total:
+            print(f"[stop] hit max-total={max_total}", file=sys.stderr)
+            break
         try:
             feed = get_author_feed(handle, limit=args.limit)
         except Exception as e:
@@ -208,6 +217,8 @@ def main() -> None:
         kept_for_handle = 0
         for item in feed:
             if kept_for_handle >= args.max_per_account:
+                break
+            if max_total and len(found) >= max_total:
                 break
             post = item.get("post", {})
             record = post.get("record", {}) or {}
@@ -229,7 +240,8 @@ def main() -> None:
                 kept_for_handle += 1
                 stats["new_urls"] += 1
                 print(f"  + [@{handle}] {url}", file=sys.stderr)
-                if kept_for_handle >= args.max_per_account:
+                if (kept_for_handle >= args.max_per_account
+                        or (max_total and len(found) >= max_total)):
                     break
         print(f"[@{handle}] {len(feed)} posts, kept {kept_for_handle}", file=sys.stderr)
 
