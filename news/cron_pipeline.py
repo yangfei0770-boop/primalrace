@@ -1,19 +1,29 @@
 #!/usr/bin/env python3
-"""One-shot pipeline — Bluesky crawl → generate commentary → render HTML.
+"""One-shot pipeline — Bluesky crawl → generate commentary → render HTML → git push.
 
 Steps:
-  1. Crawl Bluesky using queries.txt, append new URLs to urls.txt
+  1. Crawl Bluesky using accounts.txt, append new URLs to urls.txt
   2. For each URL in urls.txt not yet in news.db, fetch + generate commentary
   3. Re-render news/index.html
+  4. Commit + push news/index.html to GitHub (so Vercel rebuilds)
 
 Wired to Railway cron:
   cron: '0 1 * * *'         # daily 01:00 UTC
   startCommand: python cron_pipeline.py
 
-PUBLISH_NEW=1 in .env auto-publishes new rows (no manual review).
-SKIP_CRAWL=1 skips the Bluesky step (useful for local testing).
+Required Railway env vars:
+  PROVIDER, OLLAMA_API_KEY, OLLAMA_MODEL  (LLM)
+  GITHUB_TOKEN       (PAT with `repo` scope — for the final git push)
+  GITHUB_REPO        (e.g. yangfei0770-boop/primalrace)
+  GIT_USER_EMAIL     (e.g. bot@howtoraiseiq.com)
+  GIT_USER_NAME      (e.g. breaking-news-bot)
+  NEWS_DB            (e.g. /app/data/news.db)
+  PUBLISH_NEW        (1 = auto-publish; 0 = drafts)
+  SKIP_CRAWL         (1 = skip Bluesky step; 0 = crawl as normal)
+  SKIP_PUSH          (1 = skip git push at end, useful locally)
 """
 import os
+import shutil
 import subprocess
 import sys
 from pathlib import Path
@@ -24,9 +34,12 @@ load_dotenv(Path(__file__).parent / ".env")
 from db import connect                                # noqa: E402
 from generate import process_url, _check_env         # noqa: E402
 
-URLS_FILE = Path(__file__).parent / "urls.txt"
+NEWS_DIR = Path(__file__).parent
+URLS_FILE = NEWS_DIR / "urls.txt"
+RENDERED_HTML = NEWS_DIR / "index.html"
 AUTO_PUBLISH = os.environ.get("PUBLISH_NEW", "0") == "1"
 SKIP_CRAWL = os.environ.get("SKIP_CRAWL", "0") == "1"
+SKIP_PUSH = os.environ.get("SKIP_PUSH", "0") == "1"
 
 
 def crawl_bluesky() -> None:
@@ -48,9 +61,10 @@ def main():
     if SKIP_CRAWL:
         print("[skip-crawl] SKIP_CRAWL=1")
     else:
+        print("=== [1/4] Bluesky crawl ===")
         crawl_bluesky()
 
-    print("\n=== [2/3] Generate commentary ===")
+    print("\n=== [2/4] Generate commentary ===")
 
     if not URLS_FILE.exists():
         print("no urls.txt — nothing to generate")
@@ -83,9 +97,103 @@ def main():
                 )
             print(f"auto-published: {new_ids}")
 
-    print("\n=== [3/3] Render ===")
-    subprocess.check_call([sys.executable, "render.py"], cwd=Path(__file__).parent)
-    print("done.")
+    print("\n=== [3/4] Render ===")
+    subprocess.check_call([sys.executable, "render.py"], cwd=NEWS_DIR)
+
+    print("\n=== [4/4] Push to GitHub ===")
+    if SKIP_PUSH:
+        print("[skip-push] SKIP_PUSH=1")
+    else:
+        push_to_github()
+
+    print("\ndone.")
+
+
+# ============================================================================
+# Git push so Vercel re-deploys the static HTML
+# ============================================================================
+
+def push_to_github() -> None:
+    """Commit news/index.html (and optionally news.db) and push to the repo.
+
+    Runs in an ephemeral clone — Railway containers don't usually have the
+    git remote pre-configured. Cloning fresh each run keeps it simple.
+    """
+    token = os.environ.get("GITHUB_TOKEN", "").strip()
+    repo  = os.environ.get("GITHUB_REPO", "").strip()
+    email = os.environ.get("GIT_USER_EMAIL", "bot@howtoraiseiq.com").strip()
+    name  = os.environ.get("GIT_USER_NAME", "breaking-news-bot").strip()
+    branch = os.environ.get("GIT_BRANCH", "main").strip()
+
+    if not token or not repo:
+        print("[warn] GITHUB_TOKEN or GITHUB_REPO not set — skipping push", file=sys.stderr)
+        return
+
+    # If the current working tree IS a git checkout of the right repo (local dev),
+    # just commit+push from here. Otherwise (Railway), clone fresh.
+    blog_root = NEWS_DIR.parent
+    if (blog_root / ".git").exists():
+        _git_commit_push_in_place(blog_root, token, repo, email, name, branch)
+    else:
+        _git_clone_apply_push(token, repo, email, name, branch)
+
+
+def _run(cmd: list[str], cwd: Path, env_extra: dict | None = None) -> None:
+    env = os.environ.copy()
+    if env_extra:
+        env.update(env_extra)
+    print(f"  $ {' '.join(cmd)}  (cwd={cwd})")
+    subprocess.check_call(cmd, cwd=str(cwd), env=env)
+
+
+def _git_commit_push_in_place(repo_root: Path, token: str, repo: str,
+                              email: str, name: str, branch: str) -> None:
+    _run(["git", "config", "user.email", email], repo_root)
+    _run(["git", "config", "user.name", name], repo_root)
+    _run(["git", "add", "news/index.html"], repo_root)
+    # commit may fail if nothing changed — tolerate that
+    result = subprocess.run(
+        ["git", "diff", "--cached", "--quiet"],
+        cwd=str(repo_root),
+    )
+    if result.returncode == 0:
+        print("  [skip] no changes to commit")
+        return
+    _run(["git", "commit", "-m", "auto: refresh news commentary"], repo_root)
+    remote_url = f"https://x-access-token:{token}@github.com/{repo}.git"
+    _run(["git", "push", remote_url, f"HEAD:{branch}"], repo_root)
+
+
+def _git_clone_apply_push(token: str, repo: str, email: str, name: str,
+                          branch: str) -> None:
+    """Clone fresh, copy the new index.html in, commit, push."""
+    workdir = Path("/tmp/breaking-news-push")
+    if workdir.exists():
+        shutil.rmtree(workdir)
+    workdir.mkdir(parents=True)
+
+    remote_url = f"https://x-access-token:{token}@github.com/{repo}.git"
+    _run(["git", "clone", "--depth", "1", "--branch", branch,
+          remote_url, str(workdir)], workdir.parent)
+
+    # copy our freshly rendered HTML over
+    target = workdir / "news" / "index.html"
+    target.parent.mkdir(parents=True, exist_ok=True)
+    shutil.copyfile(RENDERED_HTML, target)
+
+    _run(["git", "config", "user.email", email], workdir)
+    _run(["git", "config", "user.name", name], workdir)
+    _run(["git", "add", "news/index.html"], workdir)
+
+    result = subprocess.run(
+        ["git", "diff", "--cached", "--quiet"], cwd=str(workdir),
+    )
+    if result.returncode == 0:
+        print("  [skip] no changes to commit")
+        return
+
+    _run(["git", "commit", "-m", "auto: refresh news commentary"], workdir)
+    _run(["git", "push", remote_url, f"HEAD:{branch}"], workdir)
 
 
 if __name__ == "__main__":

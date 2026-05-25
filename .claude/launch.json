@@ -6,6 +6,12 @@
       "runtimeExecutable": "python3",
       "runtimeArgs": ["/Users/yang/Desktop/blog/serve.py"],
       "port": 8765
+    },
+    {
+      "name": "news",
+      "runtimeExecutable": "python3",
+      "runtimeArgs": ["-m", "http.server", "8766", "--directory", "/Users/yang/Desktop/blog/news"],
+      "port": 8766
     }
   ]
 }

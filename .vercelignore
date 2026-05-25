@@ -1,0 +1,25 @@
+# Vercel only needs the static HTML + PDF + book assets.
+# Python sources stay in repo for Railway but don't need to land on Vercel.
+
+news/*.py
+news/crawlers/
+news/prompts/
+news/*.db
+news/.env
+news/.env.example
+news/urls.txt
+news/accounts.txt
+news/requirements.txt
+news/Dockerfile
+news/DEPLOY.md
+news/README.md
+
+# blog-level deploy artifacts not needed on the CDN
+Dockerfile
+entrypoint.sh
+railway.json
+serve.py
+.dockerignore
+.claude/
+
+generate_en_pdf.py

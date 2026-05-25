@@ -2,9 +2,9 @@ FROM python:3.12-slim
 
 WORKDIR /app
 
-# system deps for lxml / trafilatura
+# system deps for lxml / trafilatura, plus git for the cron's push step
 RUN apt-get update && apt-get install -y --no-install-recommends \
-      build-essential libxml2-dev libxslt1-dev \
+      build-essential libxml2-dev libxslt1-dev git ca-certificates \
     && rm -rf /var/lib/apt/lists/*
 
 # install Python deps from news/ requirements first (better layer caching)
