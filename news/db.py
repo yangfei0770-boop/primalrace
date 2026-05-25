@@ -3,7 +3,9 @@ import os
 import sqlite3
 from pathlib import Path
 
-# NEWS_DB env var lets Railway point this at a mounted volume.
+# news.db is tracked in git — GitHub Actions commits updates back to the repo
+# each run, so state persists across cron invocations without a volume.
+# NEWS_DB env can override (useful for tests).
 DB_PATH = Path(os.environ.get("NEWS_DB", Path(__file__).parent / "news.db"))
 DB_PATH.parent.mkdir(parents=True, exist_ok=True)
 

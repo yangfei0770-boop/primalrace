@@ -1,0 +1,55 @@
+name: Daily news commentary
+
+on:
+  schedule:
+    - cron: '0 1 * * *'        # daily 01:00 UTC (= 09:00 北京)
+  workflow_dispatch:           # manual trigger from the Actions tab
+
+# allow the workflow to push commits back to the repo
+permissions:
+  contents: write
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: 'pip'
+
+      - name: Install dependencies
+        run: |
+          pip install --upgrade pip
+          pip install -r news/requirements.txt
+
+      - name: Run pipeline
+        env:
+          PROVIDER:        ollama
+          OLLAMA_BASE_URL: https://ollama.com
+          OLLAMA_API_KEY:  ${{ secrets.OLLAMA_API_KEY }}
+          OLLAMA_MODEL:    gemma4:31b-cloud
+          PUBLISH_NEW:     '1'
+          SKIP_PUSH:       '1'   # we commit from the workflow step below
+        working-directory: news
+        run: python cron_pipeline.py
+
+      - name: Commit if changed
+        run: |
+          git config user.email "bot@howtoraiseiq.com"
+          git config user.name "breaking-news-bot"
+          git add news/index.html news/news.db news/urls.txt 2>/dev/null || true
+          if git diff --cached --quiet; then
+            echo "no changes — skipping commit"
+          else
+            git commit -m "auto: refresh news commentary"
+            git push
+          fi
