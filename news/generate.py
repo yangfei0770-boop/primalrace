@@ -21,6 +21,7 @@ from dotenv import load_dotenv
 # load .env from this file's directory regardless of CWD
 load_dotenv(Path(__file__).parent / ".env")
 
+import requests                       # noqa: E402
 import trafilatura                    # noqa: E402
 
 from db import connect                # noqa: E402
@@ -30,21 +31,71 @@ from prompts.system import build_system_blocks  # noqa: E402
 
 MAX_TOKENS = 2000
 
+# Browser-like UA — most news sites and link shorteners (nyti.ms, reut.rs,
+# bloom.bg, n.pr, aje.news, theatln.tc, …) refuse plain-python user agents.
+USER_AGENT = (
+    "Mozilla/5.0 (Macintosh; Intel Mac OS X 14_6_1) "
+    "AppleWebKit/605.1.15 (KHTML, like Gecko) "
+    "Version/17.6 Safari/605.1.15"
+)
+
+# Sites with hard bot-walls (Cloudflare interactive challenge, login wall, etc.)
+# We skip these early — no point spending time on guaranteed failures.
+PAYWALL_OR_BLOCKED = (
+    "washingtonpost.com",
+    "ft.com",
+    "wsj.com",
+    "nytimes.com/games",
+    "bloomberg.com/news/audio",
+    "economist.com",   # paywalled past first paragraph
+)
+
 
 # ------------------------ extraction -----------------------------------------
 
 def fetch_article(url: str) -> dict:
-    """Download + extract main text. Returns {url, source_title, source, raw_text}."""
-    html = trafilatura.fetch_url(url)
+    """Download + extract main text.
+
+    Uses requests with a browser UA so shorteners (nyti.ms etc.) follow
+    redirects properly and most CDNs don't refuse us.
+
+    Returns {url, source_title, source, raw_text}.
+    """
+    for blocked in PAYWALL_OR_BLOCKED:
+        if blocked in url:
+            raise RuntimeError(f"skipped (paywall/blocked): {blocked}")
+
+    try:
+        resp = requests.get(
+            url,
+            headers={
+                "User-Agent": USER_AGENT,
+                "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+                "Accept-Language": "en-US,en;q=0.9,zh;q=0.8",
+                "Accept-Encoding": "gzip, deflate, br",
+            },
+            allow_redirects=True,
+            timeout=25,
+        )
+    except Exception as e:
+        raise RuntimeError(f"network error: {e}")
+
+    if resp.status_code >= 400:
+        raise RuntimeError(f"HTTP {resp.status_code}")
+
+    final_url = resp.url
+    html = resp.text
     if not html:
-        raise RuntimeError(f"could not fetch {url}")
+        raise RuntimeError("empty body")
+
     meta = trafilatura.extract_metadata(html)
     text = trafilatura.extract(html, include_comments=False, include_tables=False)
     if not text or len(text) < 200:
-        raise RuntimeError(f"could not extract enough text from {url}")
+        raise RuntimeError(f"could not extract enough text (got {len(text or '')} chars)")
+
     return {
-        "url": url,
-        "source": (meta.sitename if meta else None) or _host(url),
+        "url": final_url,  # resolved URL — dedupe should use this going forward
+        "source": (meta.sitename if meta else None) or _host(final_url),
         "source_title": (meta.title if meta else None) or "",
         "raw_text": text.strip(),
     }
@@ -123,6 +174,17 @@ def process_url(url: str) -> int:
 
     print(f"  [fetch] {url}")
     article = fetch_article(url)
+    # If the fetch resolved a shortener (nyti.ms → nytimes.com/...),
+    # check dedup against the final URL too — same article via a different
+    # short link shouldn't get a second row.
+    if article["url"] != url:
+        with connect() as conn:
+            existing = conn.execute(
+                "SELECT id FROM articles WHERE url = ?", (article["url"],)
+            ).fetchone()
+            if existing:
+                print(f"  [skip] resolved to existing #{existing['id']}: {article['url']}")
+                return existing["id"]
     print(f"  [extract] {len(article['raw_text'])} chars — {article['source_title'][:60]}")
 
     print(f"  [generate] {provider_label()}")
