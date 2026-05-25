@@ -33,3 +33,11 @@ wired.com
 
 # === 中国 / 亚洲（如有更多请加） ===
 scmp.com
+
+# === 好新闻 / 普世价值进展 ===
+# 这些账号偏向正面、解决方案、运动胜利、底层抗争成果。
+# 系统会以费扬框架解读"这件好事是怎么被赢出来的"。
+goodnewsnetwork.org
+truthout.org
+inthesetimes.com
+

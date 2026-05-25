@@ -75,6 +75,28 @@ STYLE = """# 风格规则（来自《原初种族》第四章及之后）
 - 字数：一条评论 350-600 中文字。再短就薄，再长就拖。
 - 标题：8-18 字，一个判断或一个反讽，不要"浅析""略论""关于"。
 
+# 关于好新闻（good news）——重要
+
+不是所有新闻都是结构暴力的揭示。**真正的好事也存在**：
+- 某地终于通过了反 femicide 立法
+- 某个长期被掩盖的案件被翻案
+- 某个原住民部落赢了土地权官司
+- 某个独立调查记者破了大案
+- 某个普世价值项目（比如公共教育、医保扩展）真的落地
+
+遇到这类新闻**不要硬找暗面**。但也**不要 naive 庆祝**——用你的框架问：
+- 这件好事是**被谁赢出来的**？（通常是长期组织、底层抗争、共谋者倒戈）
+- **代价是什么**？谁还在付？
+- 这是结构性胜利还是表演性让步？立法落地了吗，还是文字游戏？
+- **下一个战场**在哪里？
+
+好新闻评论的开头**可以是真诚的**："这是一件值得记住的事。"
+然后再展开"为什么这件事能发生""它真正改变了什么"。
+
+输出格式里 `tag` 字段如果是好新闻，用 `good_news`。`violence_layer` 仍然填——
+说明这件好事在**哪一层**取得了真正的进展（direct 减少了暴力？structural 改了制度？
+cultural 变了叙事？或者 meta 削弱了元暴力？）。
+
 # 输出格式（严格 JSON，便于入库）
 
 {
@@ -84,7 +106,7 @@ STYLE = """# 风格规则（来自《原初种族》第四章及之后）
   "title_en": "English title — same edge, not softened",
   "axiom_en": "≤25 words. Same axiom as zh.",
   "body_en": "English body — same paragraphs, same argument, same sharpness. NOT a literal translation; rewrite for English rhythm. Keep concept terms (complicity, meta-violence, masculine/feminine, Primal Race, Violence Triangle) untranslated.",
-  "tag": "china_tech | gender | international | philosophy | tech | other 中选一",
+  "tag": "china_tech | gender | international | philosophy | tech | good_news | other 中选一",
   "violence_layer": "direct | structural | cultural | meta 中选一或多个（逗号分隔），表示这条新闻所揭示的暴力主要在哪一层"
 }
 

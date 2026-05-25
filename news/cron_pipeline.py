@@ -28,6 +28,7 @@ import os
 import shutil
 import subprocess
 import sys
+import time
 from pathlib import Path
 from typing import Optional
 
@@ -46,6 +47,9 @@ SKIP_PUSH = os.environ.get("SKIP_PUSH", "0") == "1"
 # Cap per cron run so we don't blow past the 30-min Actions timeout.
 # Remaining URLs stay in urls.txt for the next day.
 MAX_PER_RUN = int(os.environ.get("MAX_PER_RUN", "20"))
+# Wall-clock cap — if Gemma is slow during peak, stop accepting new work after
+# this much time has elapsed. Remainder waits for next hour.
+SOFT_TIMEOUT_SEC = int(os.environ.get("SOFT_TIMEOUT_SEC", "1200"))  # 20 min
 
 
 def crawl_bluesky() -> None:
@@ -88,7 +92,12 @@ def main():
         to_process = pending[:MAX_PER_RUN]
 
         new_ids = []
+        started = time.time()
         for url in to_process:
+            if time.time() - started > SOFT_TIMEOUT_SEC:
+                print(f"  [soft-timeout] hit {SOFT_TIMEOUT_SEC}s "
+                      f"— remaining URLs stay in queue for next run")
+                break
             try:
                 aid = process_url(url)
                 new_ids.append(aid)

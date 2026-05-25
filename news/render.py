@@ -24,6 +24,7 @@ TAG_LABELS = {
     "international": "国际",
     "philosophy":    "哲学",
     "tech":          "科技",
+    "good_news":     "好消息",
     "other":         "其他",
 }
 
@@ -113,6 +114,9 @@ article h2 {{
   padding: 0.08rem 0.55rem; letter-spacing: 0.08em;
   font-size: 0.72rem;
 }}
+.meta .tag.good_news {{ background: #2d6a3e; }}
+article.good_news {{ border-left-color: #2d6a3e; }}
+article.good_news .axiom {{ color: #2d6a3e; border-left-color: #2d6a3e; }}
 .meta .layer {{
   color: var(--accent); font-style: italic;
 }}
@@ -230,10 +234,10 @@ footer.foot a {{ color: var(--accent); text-decoration: none; }}
 </html>
 """
 
-ARTICLE_TEMPLATE = """<article{draft_cls} id="a{id}">
+ARTICLE_TEMPLATE = """<article class="{article_cls}" id="a{id}">
   <h2><span class="lang-zh">{title}</span><span class="lang-en">{title_en}</span>{draft_badge}</h2>
   <div class="meta">
-    <span class="tag">{tag}</span>
+    <span class="tag {tag_class}">{tag}</span>
     <span class="layer">{layer}</span>
     <span class="source">{source_link}</span>
     <span class="date">{date}</span>
@@ -303,13 +307,20 @@ def main():
         if not title_en:
             title_en = html.escape(r["title"] or "(untitled)")  # fallback to zh
 
+        tag_raw = (r["tag"] or "other").strip()
+        article_classes = []
+        if is_draft:
+            article_classes.append("draft")
+        if tag_raw == "good_news":
+            article_classes.append("good_news")
         parts.append(ARTICLE_TEMPLATE.format(
             id=r["id"],
-            draft_cls=" class=\"draft\"" if is_draft else "",
+            article_cls=" ".join(article_classes),
             draft_badge='<span class="draft-badge">DRAFT</span>' if is_draft else "",
             title=html.escape(r["title"] or "(untitled)"),
             title_en=html.escape(title_en),
-            tag=TAG_LABELS.get(r["tag"] or "other", r["tag"] or "—"),
+            tag=TAG_LABELS.get(tag_raw, tag_raw or "—"),
+            tag_class=tag_raw,
             layer=render_layer(r["violence_layer"] or ""),
             source_link=render_source(r["url"] or "", r["source"] or ""),
             date=date,

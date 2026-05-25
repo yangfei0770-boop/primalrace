@@ -172,6 +172,17 @@ def process_url(url: str) -> int:
             print(f"  [skip] already in db as #{existing['id']}")
             return existing["id"]
 
+    # Honor admin deletions: if the URL or host has been muted via admin UI,
+    # don't waste tokens generating commentary that'll just get deleted again.
+    try:
+        from admin_server import deletion_filter_reason
+        reason = deletion_filter_reason(url)
+        if reason:
+            print(f"  [muted] {reason}")
+            return 0
+    except ImportError:
+        pass  # admin_server / Flask not installed — skip filter, harmless
+
     print(f"  [fetch] {url}")
     article = fetch_article(url)
     # If the fetch resolved a shortener (nyti.ms → nytimes.com/...),
