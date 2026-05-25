@@ -1,0 +1,118 @@
+"""LLM client abstraction.
+
+Two providers, chosen via PROVIDER env var:
+  - "anthropic"  → Claude (Opus 4.7 by default), with prompt caching
+  - "ollama"     → Ollama Cloud or self-hosted Ollama (e.g. Gemma on Railway)
+
+Both providers return a dict:
+  {text, input_tokens, output_tokens, cache_read_tokens, cache_create_tokens, model}
+
+Caching tokens are 0 for Ollama (no caching there).
+"""
+from __future__ import annotations
+
+import json
+import os
+import urllib.request
+
+PROVIDER = os.environ.get("PROVIDER", "ollama").lower()
+
+
+# ============================================================================
+# Anthropic
+# ============================================================================
+
+def _anthropic_generate(system_blocks: list[dict], user_msg: str,
+                        max_tokens: int = 2000) -> dict:
+    import anthropic
+    client = anthropic.Anthropic()
+    model = os.environ.get("ANTHROPIC_MODEL", "claude-opus-4-7")
+    resp = client.messages.create(
+        model=model,
+        max_tokens=max_tokens,
+        system=system_blocks,
+        messages=[{"role": "user", "content": user_msg}],
+    )
+    text = "".join(b.text for b in resp.content if b.type == "text")
+    u = resp.usage
+    return {
+        "text": text,
+        "model": model,
+        "input_tokens": u.input_tokens,
+        "output_tokens": u.output_tokens,
+        "cache_read_tokens": getattr(u, "cache_read_input_tokens", 0) or 0,
+        "cache_create_tokens": getattr(u, "cache_creation_input_tokens", 0) or 0,
+    }
+
+
+# ============================================================================
+# Ollama (Cloud at https://ollama.com or self-hosted)
+# ============================================================================
+
+def _ollama_generate(system_blocks: list[dict], user_msg: str,
+                     max_tokens: int = 2000) -> dict:
+    """Call /api/chat. Combines the multi-block system prompt into one string —
+    Ollama has no caching so the structure doesn't matter to it."""
+    base_url = os.environ.get("OLLAMA_BASE_URL", "https://ollama.com").rstrip("/")
+    api_key = os.environ.get("OLLAMA_API_KEY", "")
+    model = os.environ.get("OLLAMA_MODEL", "gemma4:31b-cloud")
+
+    system_text = "\n\n".join(b["text"] for b in system_blocks)
+
+    payload = {
+        "model": model,
+        "messages": [
+            {"role": "system", "content": system_text},
+            {"role": "user", "content": user_msg},
+        ],
+        "stream": False,
+        "format": "json",          # ask Ollama to constrain output to valid JSON
+        "options": {
+            "temperature": 0.7,
+            "num_predict": max_tokens,
+        },
+    }
+
+    req = urllib.request.Request(
+        f"{base_url}/api/chat",
+        data=json.dumps(payload).encode("utf-8"),
+        headers={
+            "Content-Type": "application/json",
+            **({"Authorization": f"Bearer {api_key}"} if api_key else {}),
+        },
+        method="POST",
+    )
+    with urllib.request.urlopen(req, timeout=180) as r:
+        data = json.loads(r.read().decode("utf-8"))
+
+    text = data.get("message", {}).get("content", "")
+    return {
+        "text": text,
+        "model": model,
+        "input_tokens": data.get("prompt_eval_count", 0) or 0,
+        "output_tokens": data.get("eval_count", 0) or 0,
+        "cache_read_tokens": 0,
+        "cache_create_tokens": 0,
+    }
+
+
+# ============================================================================
+# Dispatch
+# ============================================================================
+
+def generate(system_blocks: list[dict], user_msg: str,
+             max_tokens: int = 2000) -> dict:
+    if PROVIDER == "anthropic":
+        return _anthropic_generate(system_blocks, user_msg, max_tokens)
+    if PROVIDER == "ollama":
+        return _ollama_generate(system_blocks, user_msg, max_tokens)
+    raise ValueError(f"unknown PROVIDER={PROVIDER!r}; use 'anthropic' or 'ollama'")
+
+
+def provider_label() -> str:
+    if PROVIDER == "anthropic":
+        return f"anthropic/{os.environ.get('ANTHROPIC_MODEL', 'claude-opus-4-7')}"
+    if PROVIDER == "ollama":
+        host = os.environ.get("OLLAMA_BASE_URL", "https://ollama.com")
+        return f"ollama@{host}/{os.environ.get('OLLAMA_MODEL', 'gemma4:31b-cloud')}"
+    return PROVIDER

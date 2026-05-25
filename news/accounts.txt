@@ -1,0 +1,35 @@
+# Bluesky 新闻账号 handle 列表。每天爬虫从这些账号拉最近的帖子。
+# # 开头是注释。要加新账号：先 curl 一下确认 handle 存在再加。
+#
+# 注释：searchPosts 现在需要 auth，所以改用 getAuthorFeed 公开 endpoint。
+# 想搜关键词，需要在 .env 里设 BLUESKY_HANDLE + BLUESKY_APP_PASSWORD（暂未启用）。
+
+# === 主流英文媒体 ===
+nytimes.com
+theguardian.com
+reuters.com
+washingtonpost.com
+apnews.com
+npr.org
+bloomberg.com
+aljazeera.com
+bbcnews.bsky.social
+theatlantic.com
+politico.com
+axios.com
+semafor.com
+economist.com
+
+# === 独立 / 调查报道 ===
+propublica.org
+404media.co
+theintercept.com
+democracynow.org
+motherjones.com
+newrepublic.com
+# nymag.com 是网络（intelligencer/vulture/thecut/strategist/curbed）噪声大，去掉
+vox.com
+wired.com
+
+# === 中国 / 亚洲（如有更多请加） ===
+scmp.com

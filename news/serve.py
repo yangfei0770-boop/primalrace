@@ -1,20 +1,16 @@
-"""Single-process web server for the whole blog/ — used both locally and on Railway.
+"""Tiny static server for news/index.html.
 
+Used by Railway (binds to $PORT) and for local preview (default :8766).
 Routes:
-  /            → blog/index.html (book landing page)
-  /news/       → blog/news/index.html (commentary site)
-  /原初种族.pdf → PDF download
-  /api/health  → 'ok' (Railway healthcheck)
-
-Local:  python3 serve.py            (defaults to :8765)
-Railway: container PORT injected    (entrypoint.sh starts this)
+  /            → index.html
+  /api/health  → 'ok'
 """
 import os
 import sys
 from http.server import HTTPServer, SimpleHTTPRequestHandler
 from pathlib import Path
 
-ROOT = Path(__file__).parent.resolve()
+ROOT = Path(__file__).parent
 os.chdir(ROOT)
 
 
@@ -26,6 +22,8 @@ class Handler(SimpleHTTPRequestHandler):
             self.end_headers()
             self.wfile.write(b"ok")
             return
+        if self.path in ("/", ""):
+            self.path = "/index.html"
         return super().do_GET()
 
     def log_message(self, fmt, *args):
@@ -33,6 +31,6 @@ class Handler(SimpleHTTPRequestHandler):
 
 
 if __name__ == "__main__":
-    port = int(os.environ.get("PORT", "8765"))
+    port = int(os.environ.get("PORT", "8766"))
     print(f"serving {ROOT} on 0.0.0.0:{port}", file=sys.stderr)
     HTTPServer(("0.0.0.0", port), Handler).serve_forever()

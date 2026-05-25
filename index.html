@@ -165,6 +165,34 @@
       letter-spacing: 0.05em;
     }
 
+    .news-link {
+      display: block;
+      margin-top: 2rem;
+      padding-top: 1.6rem;
+      border-top: 1px solid var(--border);
+      font-size: 0.95rem;
+      color: var(--accent);
+      text-decoration: none;
+      letter-spacing: 0.06em;
+      transition: color 0.18s;
+    }
+    .news-link:hover { color: var(--accent-light); }
+    .news-link .arrow {
+      display: inline-block;
+      transition: transform 0.18s;
+      margin-left: 0.4rem;
+    }
+    .news-link:hover .arrow { transform: translateX(3px); }
+    .news-link .label-en {
+      display: block;
+      font-size: 0.72rem;
+      letter-spacing: 0.22em;
+      color: var(--muted);
+      text-transform: uppercase;
+      margin-top: 0.3rem;
+      font-style: italic;
+    }
+
     .footer-ornament {
       color: var(--border);
       font-size: 1rem;
@@ -202,6 +230,11 @@
     </a>
 
     <p class="file-info">PDF · 74 pages · 1.1 MB</p>
+
+    <a class="news-link" href="news/">
+      新闻评论 · 用《原初种族》的框架读新闻<span class="arrow">→</span>
+      <span class="label-en">breaking news — read through The Primal Race</span>
+    </a>
 
     <span class="footer-ornament">― &nbsp; ― &nbsp; ―</span>
   </div>
