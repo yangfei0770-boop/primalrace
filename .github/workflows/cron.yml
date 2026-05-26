@@ -2,7 +2,7 @@ name: Daily news commentary
 
 on:
   schedule:
-    - cron: '0 * * * *'        # every hour on the hour
+    - cron: '*/10 * * * *'     # every 10 minutes
   workflow_dispatch:           # manual trigger from the Actions tab
 
 # allow the workflow to push commits back to the repo
