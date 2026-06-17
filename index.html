@@ -16,10 +16,6 @@
       --border: #c9bfad;
     }
 
-    html, body {
-      height: 100%;
-    }
-
     body {
       background-color: var(--paper);
       color: var(--ink);
@@ -30,6 +26,10 @@
       justify-content: center;
       min-height: 100vh;
       padding: 2rem;
+    }
+
+    @media (max-height: 700px) {
+      body { justify-content: flex-start; padding-top: 2rem; }
     }
 
     /* Subtle paper texture via gradient */
