@@ -308,7 +308,7 @@
     function renderChapter() {
       var c = chapters[current];
       document.getElementById('chapterContent').innerHTML = document.getElementById(c.id).innerHTML;
-      document.getElementById('chapterIndicator').textContent = c.label;
+      document.getElementById('chapterIndicator').textContent = c.label + ' · ' + (current + 1) + ' / ' + chapters.length;
       document.getElementById('prevBtn').disabled = current === 0;
       document.getElementById('nextBtn').disabled = current === chapters.length - 1;
       document.querySelector('.modal').scrollTop = 0;
