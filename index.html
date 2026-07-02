@@ -158,30 +158,52 @@
     .news-link {
       display: block;
       margin-top: 2rem;
-      padding-top: 1.6rem;
-      border-top: 1px solid var(--border);
-      font-size: 0.95rem;
-      color: var(--accent);
+      padding: 1.5rem 1.6rem;
+      background: var(--ink);
+      color: var(--paper);
       text-decoration: none;
-      letter-spacing: 0.06em;
-      transition: color 0.18s;
+      letter-spacing: 0.04em;
+      font-size: 1rem;
+      line-height: 1.5;
+      position: relative;
+      overflow: hidden;
+      transition: background 0.18s, transform 0.12s;
+      box-shadow: 0 4px 14px rgba(0,0,0,0.12);
     }
-    .news-link:hover { color: var(--accent-light); }
+    .news-link:hover {
+      background: var(--accent);
+      transform: translateY(-1px);
+    }
+    .news-link .badge {
+      display: inline-block;
+      background: var(--accent);
+      color: #fff;
+      font-size: 0.62rem;
+      letter-spacing: 0.24em;
+      padding: 0.22rem 0.55rem;
+      margin-right: 0.65rem;
+      vertical-align: middle;
+      text-transform: uppercase;
+      font-weight: 700;
+      transition: background 0.18s;
+    }
+    .news-link:hover .badge { background: var(--paper); color: var(--accent); }
     .news-link .arrow {
       display: inline-block;
       transition: transform 0.18s;
       margin-left: 0.4rem;
     }
-    .news-link:hover .arrow { transform: translateX(3px); }
+    .news-link:hover .arrow { transform: translateX(4px); }
     .news-link .label-en {
       display: block;
       font-size: 0.72rem;
       letter-spacing: 0.22em;
-      color: var(--muted);
+      color: var(--border);
       text-transform: uppercase;
-      margin-top: 0.3rem;
+      margin-top: 0.5rem;
       font-style: italic;
     }
+    .news-link:hover .label-en { color: rgba(255,253,248,0.85); }
 
     .footer-ornament {
       color: var(--border);
@@ -363,7 +385,7 @@
     <p class="file-info">PDF · 78 pages · 1.2 MB</p>
 
     <a class="news-link" href="news/">
-      新闻评论 · 用《原初种族》的框架读新闻<span class="arrow">→</span>
+      <span class="badge">Live</span>新闻评论 · 用《原初种族》的框架读新闻<span class="arrow">→</span>
       <span class="label-en">breaking news — read through The Primal Race</span>
     </a>
 
