@@ -20,16 +20,19 @@
       background-color: var(--paper);
       color: var(--ink);
       font-family: "Georgia", "Noto Serif SC", "Source Han Serif CN", serif;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
       min-height: 100vh;
-      padding: 2rem;
+      padding: 2rem 1rem;
     }
 
-    @media (max-height: 700px) {
-      body { justify-content: flex-start; padding-top: 2rem; }
+    .layout {
+      max-width: 540px;
+      width: 100%;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
+      position: relative;
+      z-index: 1;
     }
 
     body::before {
@@ -51,7 +54,6 @@
     .card {
       position: relative;
       z-index: 1;
-      max-width: 540px;
       width: 100%;
       border: 1px solid var(--border);
       border-top: 5px solid var(--accent);
@@ -155,55 +157,96 @@
       letter-spacing: 0.05em;
     }
 
-    .news-link {
-      display: block;
-      margin-top: 2rem;
-      padding: 1.5rem 1.6rem;
+    /* News section — the second "page" of the site */
+    .news-card {
+      position: relative;
+      z-index: 1;
+      max-width: 540px;
+      width: 100%;
       background: var(--ink);
       color: var(--paper);
+      border-top: 5px solid var(--accent);
+      padding: 3rem 3rem 2.6rem;
+      box-shadow:
+        0 2px 6px rgba(0,0,0,0.16),
+        0 12px 40px rgba(0,0,0,0.16);
+      text-align: center;
       text-decoration: none;
-      letter-spacing: 0.04em;
-      font-size: 1rem;
-      line-height: 1.5;
-      position: relative;
-      overflow: hidden;
-      transition: background 0.18s, transform 0.12s;
-      box-shadow: 0 4px 14px rgba(0,0,0,0.12);
+      display: block;
+      transition: transform 0.15s;
     }
-    .news-link:hover {
-      background: var(--accent);
-      transform: translateY(-1px);
-    }
-    .news-link .badge {
-      display: inline-block;
+    .news-card:hover { transform: translateY(-2px); }
+
+    .news-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
       background: var(--accent);
       color: #fff;
-      font-size: 0.62rem;
-      letter-spacing: 0.24em;
-      padding: 0.22rem 0.55rem;
-      margin-right: 0.65rem;
-      vertical-align: middle;
+      font-size: 0.68rem;
+      letter-spacing: 0.28em;
+      padding: 0.32rem 0.85rem;
       text-transform: uppercase;
       font-weight: 700;
-      transition: background 0.18s;
+      margin-bottom: 1.4rem;
     }
-    .news-link:hover .badge { background: var(--paper); color: var(--accent); }
-    .news-link .arrow {
+    .news-badge .pulse {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #fff;
+      animation: pulse 1.8s infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.35; }
+    }
+
+    .news-title-zh {
+      font-size: 2rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      color: var(--paper);
+      line-height: 1.2;
+      margin-bottom: 0.4rem;
+    }
+    .news-title-en {
+      font-size: 0.9rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--border);
+      margin-bottom: 1.6rem;
+    }
+
+    .news-desc {
+      font-size: 0.9rem;
+      line-height: 1.85;
+      color: rgba(245,240,232,0.82);
+      margin-bottom: 2rem;
+      text-align: justify;
+      border-left: 2px solid var(--accent);
+      padding-left: 1rem;
+    }
+
+    .news-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.7rem;
+      background: var(--accent);
+      color: #fff;
+      padding: 0.9rem 2rem;
+      font-size: 0.95rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      font-weight: 700;
+      transition: background 0.18s, transform 0.12s;
+    }
+    .news-card:hover .news-cta { background: var(--accent-light); }
+    .news-cta .arrow {
       display: inline-block;
       transition: transform 0.18s;
-      margin-left: 0.4rem;
     }
-    .news-link:hover .arrow { transform: translateX(4px); }
-    .news-link .label-en {
-      display: block;
-      font-size: 0.72rem;
-      letter-spacing: 0.22em;
-      color: var(--border);
-      text-transform: uppercase;
-      margin-top: 0.5rem;
-      font-style: italic;
-    }
-    .news-link:hover .label-en { color: rgba(255,253,248,0.85); }
+    .news-card:hover .news-cta .arrow { transform: translateX(4px); }
 
     .footer-ornament {
       color: var(--border);
@@ -352,6 +395,7 @@
     renderChapter();
   </script>
 
+  <div class="layout">
   <div class="card">
     <span class="ornament">✦ &nbsp; ✦ &nbsp; ✦</span>
 
@@ -384,12 +428,19 @@
 
     <p class="file-info">PDF · 78 pages · 1.2 MB</p>
 
-    <a class="news-link" href="news/">
-      <span class="badge">Live</span>新闻评论 · 用《原初种族》的框架读新闻<span class="arrow">→</span>
-      <span class="label-en">breaking news — read through The Primal Race</span>
-    </a>
-
     <span class="footer-ornament">― &nbsp; ― &nbsp; ―</span>
+  </div>
+
+  <a class="news-card" href="news/">
+    <span class="news-badge"><span class="pulse"></span>Live · 每10分钟更新</span>
+    <div class="news-title-zh">新闻评论</div>
+    <div class="news-title-en">Breaking News Commentary</div>
+    <p class="news-desc">
+      用《原初种族》的框架读全球正在发生的事。加尔通暴力三角、共谋者理论、元暴力——不写"客观中立"，直接给判断。中英双语，AI 每 10 分钟自动更新。<br><br>
+      Reading the news through the book's framework — Violence Triangle, complicity, meta-violence. Bilingual, auto-refreshed every 10 minutes.
+    </p>
+    <span class="news-cta">进入 · Enter <span class="arrow">→</span></span>
+  </a>
   </div>
 </body>
 </html>
