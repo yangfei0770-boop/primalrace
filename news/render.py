@@ -33,7 +33,16 @@ PAGE_TEMPLATE = """<!DOCTYPE html>
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>breaking news · 费扬</title>
+<title>breaking news · 费扬 — 用《原初种族》的框架读新闻</title>
+<meta name="description" content="费扬的双语新闻评论：用《原初种族》的分析框架（暴力三角、共谋者理论、元暴力）读全球新闻。中英双语，每 10 分钟自动更新。Bilingual news commentary through The Primal Race framework, auto-refreshed every 10 minutes.">
+<meta name="author" content="费扬 Yang Fei">
+<link rel="canonical" href="https://www.howtoraiseiq.com/news/">
+<meta property="og:type" content="website">
+<meta property="og:title" content="breaking news · 费扬 — 用《原初种族》的框架读新闻">
+<meta property="og:description" content="暴力三角、共谋者理论、元暴力——不写'客观中立'，直接给判断。中英双语，每 10 分钟更新。">
+<meta property="og:url" content="https://www.howtoraiseiq.com/news/">
+<meta property="og:site_name" content="The Primal Race">
+<meta name="twitter:card" content="summary">
 <script defer src="/_vercel/insights/script.js"></script>
 <script defer src="/_vercel/speed-insights/script.js"></script>
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-KRTMG8HV7F"></script>
