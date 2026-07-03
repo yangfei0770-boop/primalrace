@@ -108,31 +108,31 @@ def build_post(title: str, axiom: str, title_en: str, axiom_en: str,
     parts first if we run over; the Chinese original always survives.
     If the thumb is unavailable, fall back to a visible link with a facet.
     """
-    zh = title.strip()
-    if axiom.strip():
-        zh += "\n" + axiom.strip()
+    en = (title_en.strip() or title.strip())
+    if axiom_en.strip():
+        en += "\n" + axiom_en.strip()
 
-    en_parts = [p for p in (title_en.strip(), axiom_en.strip()) if p]
-    budget = 294 - len(zh)
-    en = "\n".join(en_parts)
-    if en and len(en) > budget:
-        en = en_parts[0]
-        if len(en) > budget:
-            en = en[:max(0, budget - 1)] + "…" if budget > 10 else ""
+    zh_parts = [p for p in (title.strip(), axiom.strip()) if p]
+    budget = 294 - len(en)
+    zh = "\n".join(zh_parts)
+    if zh and len(zh) > budget:
+        zh = zh_parts[0]
+        if len(zh) > budget:
+            zh = zh[:max(0, budget - 1)] + "…" if budget > 10 else ""
 
-    text = zh + ("\n\n" + en if en else "")
+    text = en + ("\n\n" + zh if zh else "")
     record = {
         "$type": "app.bsky.feed.post",
         "text": text,
         "createdAt": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%S.000Z"),
-        "langs": ["zh", "en"],
+        "langs": ["en", "zh"],
         "embed": {
             "$type": "app.bsky.embed.external",
             "external": {
                 "uri": url,
-                "title": title.strip() or "breaking news · 费扬",
-                "description": (axiom.strip() or
-                                "用《原初种族》的框架读新闻 · The Primal Race"),
+                "title": title_en.strip() or title.strip() or "breaking news · Yang Fei",
+                "description": (axiom_en.strip() or axiom.strip() or
+                                "News, read through The Primal Race"),
                 **({"thumb": thumb} if thumb else {}),
             },
         },
