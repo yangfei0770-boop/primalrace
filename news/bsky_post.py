@@ -40,23 +40,37 @@ def login(handle: str, app_password: str) -> dict:
     return r.json()
 
 
-def build_post(title: str, axiom: str, url: str) -> dict:
-    """Compose post text with the permalink as a rich-text link facet."""
-    parts = [title.strip()]
+def build_post(title: str, axiom: str, title_en: str, axiom_en: str,
+               url: str) -> dict:
+    """Bilingual post: zh block, en block, then a short display link
+    (rich-text facet points at the full permalink).
+
+    Bluesky caps posts at 300 graphemes — trim the English parts first
+    if we run over, the Chinese original always survives intact.
+    """
+    link_text = url.replace("https://", "").replace("http://", "")
+
+    zh = title.strip()
     if axiom.strip():
-        parts.append(axiom.strip())
-    text = "\n\n".join(parts)
-    # Bluesky limit: 300 graphemes. Leave room for the link line.
-    if len(text) > 240:
-        text = text[:239] + "…"
-    link_start = len(text.encode("utf-8")) + 2  # after "\n\n"
-    text = text + "\n\n" + url
+        zh += "\n" + axiom.strip()
+
+    en_parts = [p for p in (title_en.strip(), axiom_en.strip()) if p]
+    budget = 296 - len(zh) - len(link_text) - 4  # 4 = the two "\n\n" joints
+    en = "\n".join(en_parts)
+    if en and len(en) > budget:
+        en = en_parts[0]  # drop the EN axiom, keep the EN title
+        if len(en) > budget:
+            en = en[:max(0, budget - 1)] + "…" if budget > 10 else ""
+
+    text = zh + ("\n\n" + en if en else "")
+    link_start = len(text.encode("utf-8")) + 2
+    text = text + "\n\n" + link_text
     link_end = len(text.encode("utf-8"))
     return {
         "$type": "app.bsky.feed.post",
         "text": text,
         "createdAt": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%S.000Z"),
-        "langs": ["zh"],
+        "langs": ["zh", "en"],
         "facets": [{
             "index": {"byteStart": link_start, "byteEnd": link_end},
             "features": [{"$type": "app.bsky.richtext.facet#link", "uri": url}],
@@ -81,7 +95,7 @@ def main():
 
     with connect() as conn:
         rows = conn.execute(
-            f"SELECT id, title, axiom FROM articles "
+            f"SELECT id, title, axiom, title_en, axiom_en FROM articles "
             f"WHERE published = 1 AND id IN ({','.join('?' * len(ids))}) "
             f"ORDER BY id",
             ids,
@@ -101,6 +115,7 @@ def main():
     posted = 0
     for r in rows[:MAX_POSTS]:
         record = build_post(r["title"] or "", r["axiom"] or "",
+                            r["title_en"] or "", r["axiom_en"] or "",
                             f"{SITE}/news/p/{r['id']}")
         try:
             resp = requests.post(
