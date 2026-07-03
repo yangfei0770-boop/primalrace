@@ -71,7 +71,7 @@ jobs:
       - name: Post new items to Bluesky
         if: success()
         env:
-          BLUESKY_HANDLE: yangfei0770.bsky.social
+          BLUESKY_HANDLE: yang-fei0770.bsky.social
           BLUESKY_APP_PASSWORD: ${{ secrets.BLUESKY_APP_PASSWORD }}
         working-directory: news
         run: python bsky_post.py
