@@ -13,11 +13,14 @@ Env:
 
 Missing credentials → exits 0 silently, so the pipeline never breaks on this.
 """
+import html as html_mod
 import os
+import re
 import sys
 import time
 from datetime import datetime, timezone
 from pathlib import Path
+from urllib.parse import urljoin
 
 import requests
 
@@ -40,23 +43,59 @@ def login(handle: str, app_password: str) -> dict:
     return r.json()
 
 
-def upload_thumb(session: dict) -> dict | None:
-    """Upload og.png once per run; returns the blob ref for embed cards."""
-    og = NEWS_DIR.parent / "og.png"
-    if not og.exists():
-        return None
+MAX_THUMB_BYTES = 950_000  # bsky blob cap is ~1MB
+UA = ("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
+      "(KHTML, like Gecko) Chrome/124.0 Safari/537.36")
+
+
+def _upload_blob(session: dict, data: bytes, mime: str) -> dict | None:
     try:
         r = requests.post(
             f"{PDS}/xrpc/com.atproto.repo.uploadBlob",
             headers={"Authorization": f"Bearer {session['accessJwt']}",
-                     "Content-Type": "image/png"},
-            data=og.read_bytes(),
+                     "Content-Type": mime},
+            data=data,
             timeout=60,
         )
         r.raise_for_status()
         return r.json()["blob"]
     except Exception as e:
-        print(f"[bsky] thumb upload failed: {e}", file=sys.stderr)
+        print(f"[bsky] blob upload failed: {e}", file=sys.stderr)
+        return None
+
+
+def upload_default_thumb(session: dict) -> dict | None:
+    """Upload og.png once per run — the fallback card image."""
+    og = NEWS_DIR.parent / "og.png"
+    if not og.exists():
+        return None
+    return _upload_blob(session, og.read_bytes(), "image/png")
+
+
+def fetch_article_thumb(session: dict, article_url: str) -> dict | None:
+    """Try to pull the source article's own og:image and upload it.
+    Any failure → None (caller falls back to the book cover)."""
+    if not article_url.startswith("http"):
+        return None
+    try:
+        page = requests.get(article_url, timeout=15,
+                            headers={"User-Agent": UA})
+        page.raise_for_status()
+        m = (re.search(r'<meta[^>]+property=["\']og:image["\'][^>]+content=["\']([^"\']+)', page.text)
+             or re.search(r'<meta[^>]+content=["\']([^"\']+)["\'][^>]+property=["\']og:image["\']', page.text)
+             or re.search(r'<meta[^>]+name=["\']twitter:image["\'][^>]+content=["\']([^"\']+)', page.text))
+        if not m:
+            return None
+        img_url = urljoin(article_url, html_mod.unescape(m.group(1)))
+        img = requests.get(img_url, timeout=15, headers={"User-Agent": UA})
+        img.raise_for_status()
+        mime = (img.headers.get("Content-Type") or "").split(";")[0].strip()
+        if mime not in ("image/jpeg", "image/png", "image/webp", "image/gif"):
+            return None
+        if len(img.content) > MAX_THUMB_BYTES:
+            return None
+        return _upload_blob(session, img.content, mime)
+    except Exception:
         return None
 
 
@@ -118,7 +157,7 @@ def main():
 
     with connect() as conn:
         rows = conn.execute(
-            f"SELECT id, title, axiom, title_en, axiom_en FROM articles "
+            f"SELECT id, title, axiom, title_en, axiom_en, url FROM articles "
             f"WHERE published = 1 AND id IN ({','.join('?' * len(ids))}) "
             f"ORDER BY id",
             ids,
@@ -135,9 +174,10 @@ def main():
         print(f"[bsky] login failed: {e}", file=sys.stderr)
         return  # keep .new_ids so next run retries
 
-    thumb = upload_thumb(session)
+    default_thumb = upload_default_thumb(session)
     posted = 0
     for r in rows[:MAX_POSTS]:
+        thumb = fetch_article_thumb(session, r["url"] or "") or default_thumb
         record = build_post(r["title"] or "", r["axiom"] or "",
                             r["title_en"] or "", r["axiom_en"] or "",
                             f"{SITE}/news/p/{r['id']}", thumb)
