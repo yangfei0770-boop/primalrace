@@ -6,6 +6,13 @@
   <title>原初种族 · The Primal Race</title>
   <script defer src="/_vercel/insights/script.js"></script>
   <script defer src="/_vercel/speed-insights/script.js"></script>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-KRTMG8HV7F"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-KRTMG8HV7F');
+  </script>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -397,6 +404,7 @@
       if (next < 0 || next >= chapters.length) return;
       current = next;
       renderChapter();
+      if (window.gtag) gtag('event', 'chapter_view', { chapter: chapters[current].id });
     }
     renderChapter();
   </script>
@@ -421,7 +429,7 @@
       Built on Johan Galtung's Violence Triangle, this book axiomatizes "injustice is violence" and constructs the Primal Race Theory — that biological sex is, at its root, a race question. Women, as humanity's original colonized race, have been subjected to systemic biological alteration and extraction; their formation logic became the blueprint for every race construct and every act of violence that followed.
     </p>
 
-    <a class="download-btn" href="原初种族.pdf" download="原初种族.pdf">
+    <a class="download-btn" href="原初种族.pdf" download="原初种族.pdf" onclick="gtag('event','pdf_download')">
       <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
            fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
         <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
@@ -436,7 +444,7 @@
     <span class="footer-ornament">― &nbsp; ― &nbsp; ―</span>
   </div>
 
-  <a class="news-card" href="news/">
+  <a class="news-card" href="news/" onclick="gtag('event','news_enter')">
     <span class="news-badge"><span class="pulse"></span>Live · 每10分钟更新</span>
     <div class="news-title-zh">新闻评论</div>
     <div class="news-title-en">Breaking News Commentary</div>

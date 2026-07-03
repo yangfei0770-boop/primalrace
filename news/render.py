@@ -36,6 +36,13 @@ PAGE_TEMPLATE = """<!DOCTYPE html>
 <title>breaking news · 费扬</title>
 <script defer src="/_vercel/insights/script.js"></script>
 <script defer src="/_vercel/speed-insights/script.js"></script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-KRTMG8HV7F"></script>
+<script>
+window.dataLayer = window.dataLayer || [];
+function gtag(){{dataLayer.push(arguments);}}
+gtag('js', new Date());
+gtag('config', 'G-KRTMG8HV7F');
+</script>
 <style>
 *, *::before, *::after {{ box-sizing: border-box; margin: 0; padding: 0; }}
 :root {{
