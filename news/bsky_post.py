@@ -40,42 +40,65 @@ def login(handle: str, app_password: str) -> dict:
     return r.json()
 
 
+def upload_thumb(session: dict) -> dict | None:
+    """Upload og.png once per run; returns the blob ref for embed cards."""
+    og = NEWS_DIR.parent / "og.png"
+    if not og.exists():
+        return None
+    try:
+        r = requests.post(
+            f"{PDS}/xrpc/com.atproto.repo.uploadBlob",
+            headers={"Authorization": f"Bearer {session['accessJwt']}",
+                     "Content-Type": "image/png"},
+            data=og.read_bytes(),
+            timeout=60,
+        )
+        r.raise_for_status()
+        return r.json()["blob"]
+    except Exception as e:
+        print(f"[bsky] thumb upload failed: {e}", file=sys.stderr)
+        return None
+
+
 def build_post(title: str, axiom: str, title_en: str, axiom_en: str,
-               url: str) -> dict:
-    """Bilingual post: zh block, en block, then a short display link
-    (rich-text facet points at the full permalink).
+               url: str, thumb: dict | None) -> dict:
+    """Bilingual post + link preview card (external embed).
 
-    Bluesky caps posts at 300 graphemes — trim the English parts first
-    if we run over, the Chinese original always survives intact.
+    The card carries the permalink, so the text stays clean: zh block,
+    then en block. Bluesky caps posts at 300 graphemes — trim the English
+    parts first if we run over; the Chinese original always survives.
+    If the thumb is unavailable, fall back to a visible link with a facet.
     """
-    link_text = url.replace("https://", "").replace("http://", "")
-
     zh = title.strip()
     if axiom.strip():
         zh += "\n" + axiom.strip()
 
     en_parts = [p for p in (title_en.strip(), axiom_en.strip()) if p]
-    budget = 296 - len(zh) - len(link_text) - 4  # 4 = the two "\n\n" joints
+    budget = 294 - len(zh)
     en = "\n".join(en_parts)
     if en and len(en) > budget:
-        en = en_parts[0]  # drop the EN axiom, keep the EN title
+        en = en_parts[0]
         if len(en) > budget:
             en = en[:max(0, budget - 1)] + "…" if budget > 10 else ""
 
     text = zh + ("\n\n" + en if en else "")
-    link_start = len(text.encode("utf-8")) + 2
-    text = text + "\n\n" + link_text
-    link_end = len(text.encode("utf-8"))
-    return {
+    record = {
         "$type": "app.bsky.feed.post",
         "text": text,
         "createdAt": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%S.000Z"),
         "langs": ["zh", "en"],
-        "facets": [{
-            "index": {"byteStart": link_start, "byteEnd": link_end},
-            "features": [{"$type": "app.bsky.richtext.facet#link", "uri": url}],
-        }],
+        "embed": {
+            "$type": "app.bsky.embed.external",
+            "external": {
+                "uri": url,
+                "title": title.strip() or "breaking news · 费扬",
+                "description": (axiom.strip() or
+                                "用《原初种族》的框架读新闻 · The Primal Race"),
+                **({"thumb": thumb} if thumb else {}),
+            },
+        },
     }
+    return record
 
 
 def main():
@@ -112,11 +135,12 @@ def main():
         print(f"[bsky] login failed: {e}", file=sys.stderr)
         return  # keep .new_ids so next run retries
 
+    thumb = upload_thumb(session)
     posted = 0
     for r in rows[:MAX_POSTS]:
         record = build_post(r["title"] or "", r["axiom"] or "",
                             r["title_en"] or "", r["axiom_en"] or "",
-                            f"{SITE}/news/p/{r['id']}")
+                            f"{SITE}/news/p/{r['id']}", thumb)
         try:
             resp = requests.post(
                 f"{PDS}/xrpc/com.atproto.repo.createRecord",
