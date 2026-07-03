@@ -111,6 +111,10 @@ def main():
                     [(i,) for i in new_ids],
                 )
             print(f"auto-published: {new_ids}")
+            # bsky_post.py (separate workflow step, runs after git push)
+            # picks these up and posts them to Bluesky
+            (NEWS_DIR / ".new_ids").write_text(
+                "\n".join(str(i) for i in new_ids), encoding="utf-8")
 
     print("\n=== [3/4] Render ===")
     subprocess.check_call([sys.executable, "render.py"], cwd=NEWS_DIR)

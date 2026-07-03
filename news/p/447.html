@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>用 AI 测量苦难的刻度 — breaking news · 费扬</title>
+<meta name="description" content="技术在结构性暴力面前，只是为了让剥夺显得更“客观”的遮羞布。 — 用《原初种族》的框架读新闻，费扬评论。">
+<meta name="author" content="费扬 Yang Fei">
+<link rel="canonical" href="https://www.howtoraiseiq.com/news/p/447">
+<link rel="alternate" type="application/rss+xml" title="breaking news · 费扬" href="https://www.howtoraiseiq.com/news/feed.xml">
+<meta property="og:type" content="article">
+<meta property="og:title" content="用 AI 测量苦难的刻度 — breaking news · 费扬">
+<meta property="og:description" content="技术在结构性暴力面前，只是为了让剥夺显得更“客观”的遮羞布。">
+<meta property="og:url" content="https://www.howtoraiseiq.com/news/p/447">
+<meta property="og:site_name" content="The Primal Race">
+<meta property="og:image" content="https://www.howtoraiseiq.com/og.png">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "\u7528 AI \u6d4b\u91cf\u82e6\u96be\u7684\u523b\u5ea6", "description": "\u6280\u672f\u5728\u7ed3\u6784\u6027\u66b4\u529b\u9762\u524d\uff0c\u53ea\u662f\u4e3a\u4e86\u8ba9\u5265\u593a\u663e\u5f97\u66f4\u201c\u5ba2\u89c2\u201d\u7684\u906e\u7f9e\u5e03\u3002", "datePublished": "2026-06-01T05:16:15+00:00", "inLanguage": "zh", "author": {"@type": "Person", "name": "Yang Fei", "alternateName": "\u8d39\u626c"}, "mainEntityOfPage": "https://www.howtoraiseiq.com/news/p/447", "isPartOf": {"@type": "WebSite", "name": "The Primal Race", "url": "https://www.howtoraiseiq.com"}}</script>
+<script defer src="/_vercel/insights/script.js"></script>
+<script defer src="/_vercel/speed-insights/script.js"></script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-KRTMG8HV7F"></script>
+<script>
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-KRTMG8HV7F');
+</script>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --ink: #1a1109;
+  --paper: #f5f0e8;
+  --accent: #8b1a1a;
+  --accent-light: #b52020;
+  --muted: #6b5c47;
+  --border: #c9bfad;
+}
+html, body { min-height: 100%; }
+body {
+  background: var(--paper);
+  color: var(--ink);
+  font-family: "Georgia", "Noto Serif SC", "Source Han Serif CN", serif;
+  padding: 2.5rem 1.2rem 4rem;
+  line-height: 1.75;
+}
+body::before {
+  content: ""; position: fixed; inset: 0; pointer-events: none; z-index: 0;
+  background: repeating-linear-gradient(0deg,
+    transparent, transparent 28px,
+    rgba(0,0,0,0.025) 28px, rgba(0,0,0,0.025) 29px);
+}
+.wrap { max-width: 720px; margin: 0 auto; position: relative; z-index: 1; }
+
+header.masthead {
+  text-align: center;
+  border-bottom: 1px solid var(--border);
+  border-top: 5px solid var(--accent);
+  padding: 2.2rem 0 1.4rem;
+  margin-bottom: 2.4rem;
+  background: rgba(255,253,248,0.6);
+}
+.masthead .ornament {
+  color: var(--accent); font-size: 1.1rem;
+  letter-spacing: 0.4em; display: block; margin-bottom: 0.8rem;
+}
+.masthead h1 {
+  font-size: 2.4rem; font-weight: 700;
+  letter-spacing: 0.12em; line-height: 1.1;
+}
+.masthead h1 a { color: inherit; text-decoration: none; }
+.masthead .subtitle {
+  font-size: 0.85rem; letter-spacing: 0.22em;
+  text-transform: uppercase; color: var(--muted);
+  margin-top: 0.4rem;
+}
+.masthead .byline {
+  font-size: 0.82rem; color: var(--muted);
+  margin-top: 1rem; font-style: italic;
+}
+.masthead .byline a { color: var(--accent); text-decoration: none; }
+.masthead .byline a:hover { text-decoration: underline; }
+
+.crumbs {
+  margin-bottom: 1.6rem; font-size: 0.85rem;
+}
+.crumbs a { color: var(--accent); text-decoration: none; }
+.crumbs a:hover { text-decoration: underline; }
+
+article {
+  background: rgba(255,253,248,0.92);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--accent);
+  padding: 2rem 2.2rem 1.8rem;
+  margin-bottom: 2rem;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.05), 0 4px 16px rgba(0,0,0,0.04);
+}
+article.draft { border-left-color: var(--muted); opacity: 0.78; }
+article h2 {
+  font-size: 1.55rem; line-height: 1.35;
+  margin-bottom: 0.55rem; color: var(--ink);
+  letter-spacing: 0.02em;
+}
+article h2 a { color: inherit; text-decoration: none; }
+article h2 a:hover { color: var(--accent); }
+.meta {
+  font-size: 0.78rem; color: var(--muted);
+  letter-spacing: 0.05em; margin-bottom: 1.2rem;
+  display: flex; flex-wrap: wrap; gap: 0.8rem;
+  border-bottom: 1px dashed var(--border);
+  padding-bottom: 0.8rem;
+}
+.meta .tag {
+  background: var(--accent); color: #fff;
+  padding: 0.08rem 0.55rem; letter-spacing: 0.08em;
+  font-size: 0.72rem;
+}
+.meta .tag.good_news { background: #2d6a3e; }
+article.good_news { border-left-color: #2d6a3e; }
+article.good_news .axiom { color: #2d6a3e; border-left-color: #2d6a3e; }
+.meta .layer {
+  color: var(--accent); font-style: italic;
+}
+.meta .source a { color: var(--muted); text-decoration: none; }
+.meta .source a:hover { color: var(--accent); text-decoration: underline; }
+.meta .permalink a { color: var(--muted); text-decoration: none; }
+.meta .permalink a:hover { color: var(--accent); }
+
+.axiom {
+  font-size: 1.05rem; font-style: italic;
+  color: var(--accent);
+  border-left: 2px solid var(--accent);
+  padding-left: 0.9rem; margin-bottom: 1.2rem;
+  line-height: 1.55;
+}
+.body p {
+  margin-bottom: 1rem; text-align: justify;
+  text-indent: 2em;
+  font-size: 1.02rem;
+}
+.body p:last-child { margin-bottom: 0; }
+.body.lang-en p { text-indent: 0; }
+
+/* language toggle */
+.lang-switch {
+  position: fixed; top: 1rem; right: 1.2rem; z-index: 10;
+  background: rgba(255,253,248,0.95);
+  border: 1px solid var(--border);
+  font-family: inherit; font-size: 0.8rem;
+  letter-spacing: 0.12em;
+}
+.lang-switch button {
+  background: transparent; border: none; cursor: pointer;
+  padding: 0.45rem 0.85rem; font: inherit; color: var(--muted);
+  border-right: 1px solid var(--border);
+}
+.lang-switch button:last-child { border-right: none; }
+.lang-switch button.active { background: var(--accent); color: #fff; }
+body[data-lang="zh"] .lang-en { display: none; }
+body[data-lang="en"] .lang-zh { display: none; }
+body[data-lang="en"] .meta .layer { font-style: italic; }
+.no-translation {
+  font-size: 0.85rem; color: var(--muted);
+  font-style: italic; padding: 0.6rem 0;
+}
+
+.draft-badge {
+  display: inline-block; background: var(--muted); color: #fff;
+  font-size: 0.7rem; letter-spacing: 0.1em;
+  padding: 0.1rem 0.5rem; margin-left: 0.6rem;
+  vertical-align: middle;
+}
+
+footer.foot {
+  text-align: center; margin-top: 3.5rem;
+  font-size: 0.78rem; color: var(--muted);
+  letter-spacing: 0.18em;
+}
+footer.foot a { color: var(--accent); text-decoration: none; }
+
+@media (max-width: 560px) {
+  body { padding: 1.6rem 0.9rem 3rem; }
+  .masthead h1 { font-size: 1.8rem; }
+  article { padding: 1.4rem 1.2rem; }
+  article h2 { font-size: 1.3rem; }
+}
+</style>
+</head>
+<body data-lang="zh">
+
+<div class="lang-switch">
+  <button data-set="zh" class="active">中文</button>
+  <button data-set="en">EN</button>
+</div>
+
+<div class="wrap">
+
+<header class="masthead">
+  <span class="ornament">✦ &nbsp; ✦ &nbsp; ✦</span>
+  <h1><a href="/news/">breaking news</a></h1>
+  <div class="subtitle">News, read through The Primal Race</div>
+  <div class="byline">
+    by 费扬 &nbsp;·&nbsp; 数据 Claude &nbsp;·&nbsp;
+    <a href="/">回到《原初种族》</a> &nbsp;·&nbsp;
+    <a href="/news/feed.xml">RSS</a>
+  </div>
+</header>
+
+<div class="crumbs"><a href="/news/">← 全部评论 · all commentary</a></div>
+<article class="" id="a447">
+  <h2><a href="/news/p/447"><span class="lang-zh">用 AI 测量苦难的刻度</span><span class="lang-en">Measuring Suffering with Algorithms</span></a></h2>
+  <div class="meta">
+    <span class="tag international">国际</span>
+    <span class="layer">结构层 · 文化层</span>
+    <span class="source"><a href="https://www.theguardian.com/uk-news/2026/jun/01/charities-decry-uk-plan-to-use-ai-to-assess-age-of-young-asylum-seekers?CMP=bsky_gu" target="_blank" rel="noopener">The Guardian ↗</a></span>
+    <span class="date">2026-06-01</span>
+    <span class="permalink"><a href="/news/p/447">§ 链接</a></span>
+  </div>
+  <div class="axiom lang-zh">技术在结构性暴力面前，只是为了让剥夺显得更“客观”的遮羞布。</div>
+  <div class="axiom lang-en">Technology, in the face of structural violence, is merely a veil to make deprivation appear &quot;objective.&quot;</div>
+  <div class="body lang-zh"><p>英国内政部打算用 AI 来判定寻求庇护者的年龄。这套叙事被包装成“打击骗局”和“精准识别”，本质上是一次典型的表达武器化：通过引入一个看似中立的 machine，夺取对“事实”的定义权，从而将原本充满争议的行政判定伪装成不可挑战的科学结论。</p>
+  <p>事实上，AI 识别的是表型 (Phenotype)，而表型是会被生活方式长期雕刻的。营养不良、战争创伤、长途跋涉的精疲力竭，这些是生物墙上的刻痕，是结构性暴力 (structural violence) 留在肉体上的证据。当 AI 用一套基于所谓“常模”的数据集去衡量一个被世界抛弃的难民时，它识别的不是年龄，而是这个孩子被摧残的程度。将“衰老”的表型等同于“成年”，就是用技术在共谋一场对弱势者的二次剥夺。</p>
+  <p>最讽刺的是，这种 AI 判定创造了一种“虚假的确定性”。它让移民官员可以心安理得地将孩子扔进成人监狱，因为他们不再是凭感觉在决定，而是在执行一个“算法”。这种从 human error 到 machine error 的迁移，实际上是文化层面的暴力升级——它通过算法的权威性，消解了受害者的主体性，让原本就极其脆弱的生存博弈变成了毫无还手之力的单方面审判。</p></div>
+  <div class="body lang-en"><p>The UK Home Office plans to use AI to determine the age of asylum seekers. This narrative is packaged as &quot;stopping scams&quot; and &quot;precise identification,&quot; but it is a textbook example of the weaponisation of expression: by introducing a seemingly neutral machine, the state seizes the power to define &quot;facts,&quot; disguising a controversial administrative judgment as an unchallengeable scientific conclusion.</p>
+  <p>In reality, AI identifies Phenotypes, which are long-sculpted by life experiences. Malnutrition, war trauma, and the exhaustion of perilous journeys are scars on the biological wall—evidence of structural violence etched into the flesh. When an AI uses a dataset based on &quot;norms&quot; to measure a refugee abandoned by the world, it is not identifying age, but the degree to which that child has been devastated. Equating a &quot;aged&quot; phenotype with adulthood is a complicity in the secondary deprivation of the vulnerable.</p>
+  <p>Most ironically, this AI assessment creates a &quot;false sense of certainty.&quot; It allows immigration officers to comfortably throw children into adult prisons, not because they are deciding by gut feeling, but because they are executing an &quot;algorithm.&quot; This migration from human error to machine error is an escalation of cultural violence—it uses algorithmic authority to erase the subjecthood of the victim, turning a fragile existential war into a one-sided trial with no room for defense.</p></div>
+</article>
+
+<footer class="foot">
+  ― &nbsp; ― &nbsp; ―<br>
+  <a href="/news/">breaking news</a> &nbsp;·&nbsp; <a href="/">原初种族 The Primal Race</a>
+</footer>
+
+</div>
+
+<script>
+(function() {
+  var key = 'breaking-news-lang';
+  var saved = localStorage.getItem(key) || 'zh';
+  setLang(saved);
+  document.querySelectorAll('.lang-switch button').forEach(function(b) {
+    b.addEventListener('click', function() {
+      setLang(b.dataset.set);
+      localStorage.setItem(key, b.dataset.set);
+    });
+  });
+  function setLang(l) {
+    document.body.dataset.lang = l;
+    document.querySelectorAll('.lang-switch button').forEach(function(b) {
+      b.classList.toggle('active', b.dataset.set === l);
+    });
+  }
+})();
+</script>
+</body>
+</html>

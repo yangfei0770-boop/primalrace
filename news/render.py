@@ -1,22 +1,37 @@
 #!/usr/bin/env python3
-"""Render published commentary from news.db to news/index.html.
+"""Render published commentary from news.db to static HTML.
 
-Style mirrors blog/index.html — same palette, same paper texture, serif type.
+Outputs:
+  news/index.html      — the main feed page (all articles)
+  news/p/<id>.html     — one standalone page per article (SEO permalinks)
+  news/feed.xml        — RSS 2.0 feed (latest 100)
+  sitemap.xml          — repo-root sitemap covering /, /news/ and all articles
+
 Only published=1 rows are rendered (use admin.py to publish).
 
 Usage:
   python3 render.py            # only published items
-  python3 render.py --drafts   # include drafts (for local preview)
+  python3 render.py --drafts   # include drafts on index.html (local preview);
+                               # standalone pages / feed / sitemap stay published-only
 """
 import argparse
 import html
+import json
 import re
-from datetime import datetime
+from datetime import datetime, timezone
+from email.utils import format_datetime
 from pathlib import Path
 
 from db import connect
 
-OUT = Path(__file__).parent / "index.html"
+NEWS_DIR = Path(__file__).parent
+OUT = NEWS_DIR / "index.html"
+P_DIR = NEWS_DIR / "p"
+FEED_OUT = NEWS_DIR / "feed.xml"
+SITEMAP_OUT = NEWS_DIR.parent / "sitemap.xml"
+
+SITE = "https://www.howtoraiseiq.com"
+OG_IMAGE = f"{SITE}/og.png"
 
 TAG_LABELS = {
     "china_tech":    "中国科技",
@@ -33,17 +48,19 @@ PAGE_TEMPLATE = """<!DOCTYPE html>
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>breaking news · 费扬 — 用《原初种族》的框架读新闻</title>
-<meta name="description" content="费扬的双语新闻评论：用《原初种族》的分析框架（暴力三角、共谋者理论、元暴力）读全球新闻。中英双语，每 10 分钟自动更新。Bilingual news commentary through The Primal Race framework, auto-refreshed every 10 minutes.">
+<title>{head_title}</title>
+<meta name="description" content="{meta_desc}">
 <meta name="author" content="费扬 Yang Fei">
-<link rel="canonical" href="https://www.howtoraiseiq.com/news/">
-<meta property="og:type" content="website">
-<meta property="og:title" content="breaking news · 费扬 — 用《原初种族》的框架读新闻">
-<meta property="og:description" content="暴力三角、共谋者理论、元暴力——不写'客观中立'，直接给判断。中英双语，每 10 分钟更新。">
-<meta property="og:url" content="https://www.howtoraiseiq.com/news/">
+<link rel="canonical" href="{canonical}">
+<link rel="alternate" type="application/rss+xml" title="breaking news · 费扬" href="{site}/news/feed.xml">
+<meta property="og:type" content="{og_type}">
+<meta property="og:title" content="{head_title}">
+<meta property="og:description" content="{og_desc}">
+<meta property="og:url" content="{canonical}">
 <meta property="og:site_name" content="The Primal Race">
-<meta name="twitter:card" content="summary">
-<script defer src="/_vercel/insights/script.js"></script>
+<meta property="og:image" content="{og_image}">
+<meta name="twitter:card" content="summary_large_image">
+{extra_head}<script defer src="/_vercel/insights/script.js"></script>
 <script defer src="/_vercel/speed-insights/script.js"></script>
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-KRTMG8HV7F"></script>
 <script>
@@ -94,6 +111,7 @@ header.masthead {{
   font-size: 2.4rem; font-weight: 700;
   letter-spacing: 0.12em; line-height: 1.1;
 }}
+.masthead h1 a {{ color: inherit; text-decoration: none; }}
 .masthead .subtitle {{
   font-size: 0.85rem; letter-spacing: 0.22em;
   text-transform: uppercase; color: var(--muted);
@@ -105,6 +123,12 @@ header.masthead {{
 }}
 .masthead .byline a {{ color: var(--accent); text-decoration: none; }}
 .masthead .byline a:hover {{ text-decoration: underline; }}
+
+.crumbs {{
+  margin-bottom: 1.6rem; font-size: 0.85rem;
+}}
+.crumbs a {{ color: var(--accent); text-decoration: none; }}
+.crumbs a:hover {{ text-decoration: underline; }}
 
 article {{
   background: rgba(255,253,248,0.92);
@@ -120,6 +144,8 @@ article h2 {{
   margin-bottom: 0.55rem; color: var(--ink);
   letter-spacing: 0.02em;
 }}
+article h2 a {{ color: inherit; text-decoration: none; }}
+article h2 a:hover {{ color: var(--accent); }}
 .meta {{
   font-size: 0.78rem; color: var(--muted);
   letter-spacing: 0.05em; margin-bottom: 1.2rem;
@@ -140,6 +166,8 @@ article.good_news .axiom {{ color: #2d6a3e; border-left-color: #2d6a3e; }}
 }}
 .meta .source a {{ color: var(--muted); text-decoration: none; }}
 .meta .source a:hover {{ color: var(--accent); text-decoration: underline; }}
+.meta .permalink a {{ color: var(--muted); text-decoration: none; }}
+.meta .permalink a:hover {{ color: var(--accent); }}
 
 .axiom {{
   font-size: 1.05rem; font-style: italic;
@@ -212,19 +240,20 @@ footer.foot a {{ color: var(--accent); text-decoration: none; }}
 
 <header class="masthead">
   <span class="ornament">✦ &nbsp; ✦ &nbsp; ✦</span>
-  <h1>breaking news</h1>
+  <h1><a href="/news/">breaking news</a></h1>
   <div class="subtitle">News, read through The Primal Race</div>
   <div class="byline">
     by 费扬 &nbsp;·&nbsp; 数据 Claude &nbsp;·&nbsp;
-    <a href="../">回到《原初种族》</a>
+    <a href="/">回到《原初种族》</a> &nbsp;·&nbsp;
+    <a href="/news/feed.xml">RSS</a>
   </div>
 </header>
 
-{articles}
+{crumbs}{articles}
 
 <footer class="foot">
   ― &nbsp; ― &nbsp; ―<br>
-  共 {count} 条 &nbsp;·&nbsp; 更新于 {updated}
+  {footer_line}
 </footer>
 
 </div>
@@ -253,12 +282,13 @@ footer.foot a {{ color: var(--accent); text-decoration: none; }}
 """
 
 ARTICLE_TEMPLATE = """<article class="{article_cls}" id="a{id}">
-  <h2><span class="lang-zh">{title}</span><span class="lang-en">{title_en}</span>{draft_badge}</h2>
+  <h2><a href="{permalink}"><span class="lang-zh">{title}</span><span class="lang-en">{title_en}</span></a>{draft_badge}</h2>
   <div class="meta">
     <span class="tag {tag_class}">{tag}</span>
     <span class="layer">{layer}</span>
     <span class="source">{source_link}</span>
     <span class="date">{date}</span>
+    <span class="permalink"><a href="{permalink}">§ 链接</a></span>
   </div>
   {axiom_block_zh}
   {axiom_block_en}
@@ -294,6 +324,179 @@ def render_source(url: str, source: str) -> str:
     return s
 
 
+def parse_dt(raw: str) -> datetime:
+    """Best-effort parse of generated_at; fall back to now (UTC)."""
+    for fmt in ("%Y-%m-%d %H:%M:%S", "%Y-%m-%dT%H:%M:%S", "%Y-%m-%d %H:%M", "%Y-%m-%d"):
+        try:
+            return datetime.strptime((raw or "")[:len(fmt) + 2].strip(), fmt).replace(tzinfo=timezone.utc)
+        except ValueError:
+            continue
+    try:
+        return datetime.fromisoformat(raw).replace(tzinfo=timezone.utc)
+    except (ValueError, TypeError):
+        return datetime.now(timezone.utc)
+
+
+def attr(s: str, limit: int = 300) -> str:
+    """Escape + squash whitespace for use inside an HTML attribute."""
+    s = re.sub(r"\s+", " ", (s or "").strip())
+    if len(s) > limit:
+        s = s[:limit - 1] + "…"
+    return html.escape(s, quote=True)
+
+
+def article_html(r, include_drafts: bool) -> str:
+    is_draft = not r["published"]
+    date = (r["generated_at"] or "")[:10]
+    axiom = (r["axiom"] or "").strip()
+    axiom_en = (r["axiom_en"] or "").strip()
+    body_text = (r["your_edits"] or r["body"] or "").strip()
+    body_en = (r["body_en"] or "").strip()
+    title_en = (r["title_en"] or "").strip()
+
+    if body_en:
+        body_en_html = f'<div class="body lang-en">{render_body(body_en)}</div>'
+    else:
+        body_en_html = ('<div class="body lang-en"><p class="no-translation">'
+                        '(English translation pending — run backfill_translation.py)</p></div>')
+    if not title_en:
+        title_en = html.escape(r["title"] or "(untitled)")
+
+    tag_raw = (r["tag"] or "other").strip()
+    article_classes = []
+    if is_draft:
+        article_classes.append("draft")
+    if tag_raw == "good_news":
+        article_classes.append("good_news")
+    return ARTICLE_TEMPLATE.format(
+        id=r["id"],
+        permalink=f"/news/p/{r['id']}",
+        article_cls=" ".join(article_classes),
+        draft_badge='<span class="draft-badge">DRAFT</span>' if is_draft else "",
+        title=html.escape(r["title"] or "(untitled)"),
+        title_en=html.escape(title_en),
+        tag=TAG_LABELS.get(tag_raw, tag_raw or "—"),
+        tag_class=tag_raw,
+        layer=render_layer(r["violence_layer"] or ""),
+        source_link=render_source(r["url"] or "", r["source"] or ""),
+        date=date,
+        axiom_block_zh=f'<div class="axiom lang-zh">{html.escape(axiom)}</div>' if axiom else "",
+        axiom_block_en=f'<div class="axiom lang-en">{html.escape(axiom_en)}</div>' if axiom_en else "",
+        body=render_body(body_text) if body_text else "<p><em>(no body)</em></p>",
+        body_en_block=body_en_html,
+    )
+
+
+def write_article_pages(published_rows) -> int:
+    """One standalone page per published article → news/p/<id>.html"""
+    P_DIR.mkdir(exist_ok=True)
+    n = 0
+    for r in published_rows:
+        title = (r["title"] or "(untitled)").strip()
+        axiom = (r["axiom"] or "").strip()
+        body_text = (r["your_edits"] or r["body"] or "").strip()
+        desc_src = axiom or body_text[:160]
+        url = f"{SITE}/news/p/{r['id']}"
+        dt = parse_dt(r["generated_at"] or "")
+
+        ld = {
+            "@context": "https://schema.org",
+            "@type": "Article",
+            "headline": title,
+            "description": re.sub(r"\s+", " ", desc_src)[:200],
+            "datePublished": dt.strftime("%Y-%m-%dT%H:%M:%S+00:00"),
+            "inLanguage": "zh",
+            "author": {"@type": "Person", "name": "Yang Fei", "alternateName": "费扬"},
+            "mainEntityOfPage": url,
+            "isPartOf": {"@type": "WebSite", "name": "The Primal Race", "url": SITE},
+        }
+        extra_head = ('<script type="application/ld+json">'
+                      + json.dumps(ld, ensure_ascii=True)
+                      + "</script>\n")
+
+        page = PAGE_TEMPLATE.format(
+            head_title=attr(f"{title} — breaking news · 费扬", 90),
+            meta_desc=attr(f"{desc_src} — 用《原初种族》的框架读新闻，费扬评论。", 300),
+            og_desc=attr(desc_src, 200),
+            canonical=url,
+            og_type="article",
+            og_image=OG_IMAGE,
+            site=SITE,
+            extra_head=extra_head,
+            crumbs='<div class="crumbs"><a href="/news/">← 全部评论 · all commentary</a></div>\n',
+            articles=article_html(r, include_drafts=False),
+            footer_line=f'<a href="/news/">breaking news</a> &nbsp;·&nbsp; <a href="/">原初种族 The Primal Race</a>',
+        )
+        (P_DIR / f"{r['id']}.html").write_text(page, encoding="utf-8")
+        n += 1
+    return n
+
+
+def write_feed(published_rows) -> None:
+    """RSS 2.0 — latest 100 published items."""
+    items = []
+    for r in published_rows[:100]:
+        title = (r["title"] or "(untitled)").strip()
+        axiom = (r["axiom"] or "").strip()
+        body_text = (r["your_edits"] or r["body"] or "").strip()
+        desc = axiom + ("\n\n" + body_text if body_text else "")
+        url = f"{SITE}/news/p/{r['id']}"
+        dt = parse_dt(r["generated_at"] or "")
+        items.append(
+            "<item>"
+            f"<title>{html.escape(title)}</title>"
+            f"<link>{url}</link>"
+            f"<guid isPermaLink=\"true\">{url}</guid>"
+            f"<pubDate>{format_datetime(dt)}</pubDate>"
+            f"<description>{html.escape(desc[:1500])}</description>"
+            "</item>"
+        )
+    feed = (
+        '<?xml version="1.0" encoding="UTF-8"?>\n'
+        '<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">\n'
+        "<channel>\n"
+        "<title>breaking news · 费扬</title>\n"
+        f"<link>{SITE}/news/</link>\n"
+        f'<atom:link href="{SITE}/news/feed.xml" rel="self" type="application/rss+xml"/>\n'
+        "<description>用《原初种族》的框架读新闻 — 费扬的双语新闻评论，每 10 分钟自动更新。</description>\n"
+        "<language>zh</language>\n"
+        f"<lastBuildDate>{format_datetime(datetime.now(timezone.utc))}</lastBuildDate>\n"
+        + "\n".join(items)
+        + "\n</channel>\n</rss>\n"
+    )
+    FEED_OUT.write_text(feed, encoding="utf-8")
+
+
+def write_sitemap(published_rows) -> None:
+    urls = [
+        (f"{SITE}/", "weekly", "1.0", None),
+        (f"{SITE}/news/", "hourly", "0.9", None),
+    ]
+    for r in published_rows:
+        lastmod = (r["generated_at"] or "")[:10] or None
+        urls.append((f"{SITE}/news/p/{r['id']}", None, "0.6", lastmod))
+
+    entries = []
+    for loc, freq, prio, lastmod in urls:
+        e = f"<url><loc>{loc}</loc>"
+        if lastmod:
+            e += f"<lastmod>{lastmod}</lastmod>"
+        if freq:
+            e += f"<changefreq>{freq}</changefreq>"
+        if prio:
+            e += f"<priority>{prio}</priority>"
+        e += "</url>"
+        entries.append(e)
+
+    SITEMAP_OUT.write_text(
+        '<?xml version="1.0" encoding="UTF-8"?>\n'
+        '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
+        + "\n".join(entries)
+        + "\n</urlset>\n",
+        encoding="utf-8",
+    )
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--drafts", action="store_true", help="include unpublished drafts")
@@ -306,56 +509,39 @@ def main():
             f"ORDER BY published DESC, generated_at DESC"
         ).fetchall()
 
-    parts = []
-    for r in rows:
-        is_draft = not r["published"]
-        date = (r["generated_at"] or "")[:10]
-        axiom = (r["axiom"] or "").strip()
-        axiom_en = (r["axiom_en"] or "").strip()
-        body_text = (r["your_edits"] or r["body"] or "").strip()
-        body_en = (r["body_en"] or "").strip()
-        title_en = (r["title_en"] or "").strip()
+    published_rows = [r for r in rows if r["published"]]
 
-        # English fallback: if missing, show a hint instead
-        if body_en:
-            body_en_html = f'<div class="body lang-en">{render_body(body_en)}</div>'
-        else:
-            body_en_html = ('<div class="body lang-en"><p class="no-translation">'
-                            '(English translation pending — run backfill_translation.py)</p></div>')
-        if not title_en:
-            title_en = html.escape(r["title"] or "(untitled)")  # fallback to zh
-
-        tag_raw = (r["tag"] or "other").strip()
-        article_classes = []
-        if is_draft:
-            article_classes.append("draft")
-        if tag_raw == "good_news":
-            article_classes.append("good_news")
-        parts.append(ARTICLE_TEMPLATE.format(
-            id=r["id"],
-            article_cls=" ".join(article_classes),
-            draft_badge='<span class="draft-badge">DRAFT</span>' if is_draft else "",
-            title=html.escape(r["title"] or "(untitled)"),
-            title_en=html.escape(title_en),
-            tag=TAG_LABELS.get(tag_raw, tag_raw or "—"),
-            tag_class=tag_raw,
-            layer=render_layer(r["violence_layer"] or ""),
-            source_link=render_source(r["url"] or "", r["source"] or ""),
-            date=date,
-            axiom_block_zh=f'<div class="axiom lang-zh">{html.escape(axiom)}</div>' if axiom else "",
-            axiom_block_en=f'<div class="axiom lang-en">{html.escape(axiom_en)}</div>' if axiom_en else "",
-            body=render_body(body_text) if body_text else "<p><em>(no body)</em></p>",
-            body_en_block=body_en_html,
-        ))
-
+    # 1. index page
+    parts = [article_html(r, args.drafts) for r in rows]
     html_out = PAGE_TEMPLATE.format(
+        head_title="breaking news · 费扬 — 用《原初种族》的框架读新闻",
+        meta_desc=attr("费扬的双语新闻评论：用《原初种族》的分析框架（暴力三角、共谋者理论、元暴力）读全球新闻。中英双语，每 10 分钟自动更新。Bilingual news commentary through The Primal Race framework, auto-refreshed every 10 minutes."),
+        og_desc=attr("暴力三角、共谋者理论、元暴力——不写'客观中立'，直接给判断。中英双语，每 10 分钟更新。"),
+        canonical=f"{SITE}/news/",
+        og_type="website",
+        og_image=OG_IMAGE,
+        site=SITE,
+        extra_head="",
+        crumbs="",
         articles="\n".join(parts) if parts
                 else '<article><div class="body"><p>暂无评论。</p></div></article>',
-        count=len(rows),
-        updated=datetime.now().strftime("%Y-%m-%d %H:%M"),
+        footer_line=f"共 {len(rows)} 条 &nbsp;·&nbsp; 更新于 "
+                    + datetime.now().strftime("%Y-%m-%d %H:%M"),
     )
     OUT.write_text(html_out, encoding="utf-8")
     print(f"wrote {OUT}  ({len(rows)} articles, drafts_included={args.drafts})")
+
+    # 2. per-article pages
+    n = write_article_pages(published_rows)
+    print(f"wrote {n} article pages → {P_DIR}/")
+
+    # 3. RSS feed
+    write_feed(published_rows)
+    print(f"wrote {FEED_OUT}")
+
+    # 4. sitemap
+    write_sitemap(published_rows)
+    print(f"wrote {SITEMAP_OUT}")
 
 
 if __name__ == "__main__":

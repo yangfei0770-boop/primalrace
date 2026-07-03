@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>数据处理器是掩体，元暴力才是真正的后门 — breaking news · 费扬</title>
+<meta name="description" content="用技术定义掩盖权力逻辑，是典型的结构性暴力 PR 版本。 — 用《原初种族》的框架读新闻，费扬评论。">
+<meta name="author" content="费扬 Yang Fei">
+<link rel="canonical" href="https://www.howtoraiseiq.com/news/p/442">
+<link rel="alternate" type="application/rss+xml" title="breaking news · 费扬" href="https://www.howtoraiseiq.com/news/feed.xml">
+<meta property="og:type" content="article">
+<meta property="og:title" content="数据处理器是掩体，元暴力才是真正的后门 — breaking news · 费扬">
+<meta property="og:description" content="用技术定义掩盖权力逻辑，是典型的结构性暴力 PR 版本。">
+<meta property="og:url" content="https://www.howtoraiseiq.com/news/p/442">
+<meta property="og:site_name" content="The Primal Race">
+<meta property="og:image" content="https://www.howtoraiseiq.com/og.png">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "\u6570\u636e\u5904\u7406\u5668\u662f\u63a9\u4f53\uff0c\u5143\u66b4\u529b\u624d\u662f\u771f\u6b63\u7684\u540e\u95e8", "description": "\u7528\u6280\u672f\u5b9a\u4e49\u63a9\u76d6\u6743\u529b\u903b\u8f91\uff0c\u662f\u5178\u578b\u7684\u7ed3\u6784\u6027\u66b4\u529b PR \u7248\u672c\u3002", "datePublished": "2026-06-01T04:46:17+00:00", "inLanguage": "zh", "author": {"@type": "Person", "name": "Yang Fei", "alternateName": "\u8d39\u626c"}, "mainEntityOfPage": "https://www.howtoraiseiq.com/news/p/442", "isPartOf": {"@type": "WebSite", "name": "The Primal Race", "url": "https://www.howtoraiseiq.com"}}</script>
+<script defer src="/_vercel/insights/script.js"></script>
+<script defer src="/_vercel/speed-insights/script.js"></script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-KRTMG8HV7F"></script>
+<script>
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-KRTMG8HV7F');
+</script>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --ink: #1a1109;
+  --paper: #f5f0e8;
+  --accent: #8b1a1a;
+  --accent-light: #b52020;
+  --muted: #6b5c47;
+  --border: #c9bfad;
+}
+html, body { min-height: 100%; }
+body {
+  background: var(--paper);
+  color: var(--ink);
+  font-family: "Georgia", "Noto Serif SC", "Source Han Serif CN", serif;
+  padding: 2.5rem 1.2rem 4rem;
+  line-height: 1.75;
+}
+body::before {
+  content: ""; position: fixed; inset: 0; pointer-events: none; z-index: 0;
+  background: repeating-linear-gradient(0deg,
+    transparent, transparent 28px,
+    rgba(0,0,0,0.025) 28px, rgba(0,0,0,0.025) 29px);
+}
+.wrap { max-width: 720px; margin: 0 auto; position: relative; z-index: 1; }
+
+header.masthead {
+  text-align: center;
+  border-bottom: 1px solid var(--border);
+  border-top: 5px solid var(--accent);
+  padding: 2.2rem 0 1.4rem;
+  margin-bottom: 2.4rem;
+  background: rgba(255,253,248,0.6);
+}
+.masthead .ornament {
+  color: var(--accent); font-size: 1.1rem;
+  letter-spacing: 0.4em; display: block; margin-bottom: 0.8rem;
+}
+.masthead h1 {
+  font-size: 2.4rem; font-weight: 700;
+  letter-spacing: 0.12em; line-height: 1.1;
+}
+.masthead h1 a { color: inherit; text-decoration: none; }
+.masthead .subtitle {
+  font-size: 0.85rem; letter-spacing: 0.22em;
+  text-transform: uppercase; color: var(--muted);
+  margin-top: 0.4rem;
+}
+.masthead .byline {
+  font-size: 0.82rem; color: var(--muted);
+  margin-top: 1rem; font-style: italic;
+}
+.masthead .byline a { color: var(--accent); text-decoration: none; }
+.masthead .byline a:hover { text-decoration: underline; }
+
+.crumbs {
+  margin-bottom: 1.6rem; font-size: 0.85rem;
+}
+.crumbs a { color: var(--accent); text-decoration: none; }
+.crumbs a:hover { text-decoration: underline; }
+
+article {
+  background: rgba(255,253,248,0.92);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--accent);
+  padding: 2rem 2.2rem 1.8rem;
+  margin-bottom: 2rem;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.05), 0 4px 16px rgba(0,0,0,0.04);
+}
+article.draft { border-left-color: var(--muted); opacity: 0.78; }
+article h2 {
+  font-size: 1.55rem; line-height: 1.35;
+  margin-bottom: 0.55rem; color: var(--ink);
+  letter-spacing: 0.02em;
+}
+article h2 a { color: inherit; text-decoration: none; }
+article h2 a:hover { color: var(--accent); }
+.meta {
+  font-size: 0.78rem; color: var(--muted);
+  letter-spacing: 0.05em; margin-bottom: 1.2rem;
+  display: flex; flex-wrap: wrap; gap: 0.8rem;
+  border-bottom: 1px dashed var(--border);
+  padding-bottom: 0.8rem;
+}
+.meta .tag {
+  background: var(--accent); color: #fff;
+  padding: 0.08rem 0.55rem; letter-spacing: 0.08em;
+  font-size: 0.72rem;
+}
+.meta .tag.good_news { background: #2d6a3e; }
+article.good_news { border-left-color: #2d6a3e; }
+article.good_news .axiom { color: #2d6a3e; border-left-color: #2d6a3e; }
+.meta .layer {
+  color: var(--accent); font-style: italic;
+}
+.meta .source a { color: var(--muted); text-decoration: none; }
+.meta .source a:hover { color: var(--accent); text-decoration: underline; }
+.meta .permalink a { color: var(--muted); text-decoration: none; }
+.meta .permalink a:hover { color: var(--accent); }
+
+.axiom {
+  font-size: 1.05rem; font-style: italic;
+  color: var(--accent);
+  border-left: 2px solid var(--accent);
+  padding-left: 0.9rem; margin-bottom: 1.2rem;
+  line-height: 1.55;
+}
+.body p {
+  margin-bottom: 1rem; text-align: justify;
+  text-indent: 2em;
+  font-size: 1.02rem;
+}
+.body p:last-child { margin-bottom: 0; }
+.body.lang-en p { text-indent: 0; }
+
+/* language toggle */
+.lang-switch {
+  position: fixed; top: 1rem; right: 1.2rem; z-index: 10;
+  background: rgba(255,253,248,0.95);
+  border: 1px solid var(--border);
+  font-family: inherit; font-size: 0.8rem;
+  letter-spacing: 0.12em;
+}
+.lang-switch button {
+  background: transparent; border: none; cursor: pointer;
+  padding: 0.45rem 0.85rem; font: inherit; color: var(--muted);
+  border-right: 1px solid var(--border);
+}
+.lang-switch button:last-child { border-right: none; }
+.lang-switch button.active { background: var(--accent); color: #fff; }
+body[data-lang="zh"] .lang-en { display: none; }
+body[data-lang="en"] .lang-zh { display: none; }
+body[data-lang="en"] .meta .layer { font-style: italic; }
+.no-translation {
+  font-size: 0.85rem; color: var(--muted);
+  font-style: italic; padding: 0.6rem 0;
+}
+
+.draft-badge {
+  display: inline-block; background: var(--muted); color: #fff;
+  font-size: 0.7rem; letter-spacing: 0.1em;
+  padding: 0.1rem 0.5rem; margin-left: 0.6rem;
+  vertical-align: middle;
+}
+
+footer.foot {
+  text-align: center; margin-top: 3.5rem;
+  font-size: 0.78rem; color: var(--muted);
+  letter-spacing: 0.18em;
+}
+footer.foot a { color: var(--accent); text-decoration: none; }
+
+@media (max-width: 560px) {
+  body { padding: 1.6rem 0.9rem 3rem; }
+  .masthead h1 { font-size: 1.8rem; }
+  article { padding: 1.4rem 1.2rem; }
+  article h2 { font-size: 1.3rem; }
+}
+</style>
+</head>
+<body data-lang="zh">
+
+<div class="lang-switch">
+  <button data-set="zh" class="active">中文</button>
+  <button data-set="en">EN</button>
+</div>
+
+<div class="wrap">
+
+<header class="masthead">
+  <span class="ornament">✦ &nbsp; ✦ &nbsp; ✦</span>
+  <h1><a href="/news/">breaking news</a></h1>
+  <div class="subtitle">News, read through The Primal Race</div>
+  <div class="byline">
+    by 费扬 &nbsp;·&nbsp; 数据 Claude &nbsp;·&nbsp;
+    <a href="/">回到《原初种族》</a> &nbsp;·&nbsp;
+    <a href="/news/feed.xml">RSS</a>
+  </div>
+</header>
+
+<div class="crumbs"><a href="/news/">← 全部评论 · all commentary</a></div>
+<article class="" id="a442">
+  <h2><a href="/news/p/442"><span class="lang-zh">数据处理器是掩体，元暴力才是真正的后门</span><span class="lang-en">Data Processor as a Shield, Meta-Violence as the Real Backdoor</span></a></h2>
+  <div class="meta">
+    <span class="tag tech">科技</span>
+    <span class="layer">结构层 · 文化层 · 元暴力</span>
+    <span class="source"><a href="https://www.theguardian.com/technology/2026/jun/01/fcas-palantir-deal-could-expose-uk-financial-data-to-trumps-us-critics-fear?CMP=bsky_gu" target="_blank" rel="noopener">The Guardian ↗</a></span>
+    <span class="date">2026-06-01</span>
+    <span class="permalink"><a href="/news/p/442">§ 链接</a></span>
+  </div>
+  <div class="axiom lang-zh">用技术定义掩盖权力逻辑，是典型的结构性暴力 PR 版本。</div>
+  <div class="axiom lang-en">Using technical definitions to mask power logic is a classic PR version of structural violence.</div>
+  <div class="body lang-zh"><p>FCA 把 Palantir 定义为 &quot;data processor&quot; 而非 &quot;controller&quot;，试图用一套技术术语来对冲政治风险。这在逻辑上是一个巨大的 scam。在权力博弈中，所谓的“控制权”从来不是由软件架构或加密密钥决定的，而是由谁拥有定义权决定。正如评论中所言，在 Trump 的逻辑里，control 意味着他认为它意味着什么。</p>
+  <p>Palantir 的背景——Peter Thiel 对 Trump 的支持，以及它在 ICE 和以色列军队中的角色——揭示了这不仅仅是一次 AI 升级，而是一次认知入口的交接。当英国的金融监管数据进入一个由美国政治资本控制的黑盒时，Structural Violence 已经完成了闭环：你的隐私不再由法律保障，而由一个具有强烈政治倾向的商业实体在“技术上”承诺保障。</p>
+  <p>这种“为了打击犯罪而引入高效工具”的叙事，是典型的武器化表达。它利用公众对“效率”和“安全”的渴望，诱导监管机构在不知不觉中完成共谋。FCA 认为只要有加密密钥就安全，这完全忽略了 Meta Violence 的运作方式——当权力决定要看的时候，所谓的“技术壁垒”不过是给共谋者们提供的一层心理安慰剂。</p>
+  <p>最终，英国公民的数据被推入了 Trump 时代的“肉类粉碎机”。这不仅是数据主权的丧失，更是将个体的存在性交给了远在海外的、一个不可预测的权力意志。所谓的“试运行”，不过是在测试这套共谋机制的润滑程度。</p></div>
+  <div class="body lang-en"><p>The FCA’s attempt to define Palantir as a &quot;data processor&quot; rather than a &quot;controller&quot; is a massive scam, designed to hedge political risk with technical jargon. In the game of power, &quot;control&quot; is never determined by software architecture or encryption keys; it is determined by whoever holds the power of definition. As the critic noted, in Trump’s world, control means whatever Trump thinks it means.</p>
+  <p>The pedigree of Palantir—Peter Thiel’s support for Trump and its role with ICE and the Israeli military—reveals that this is not just an AI upgrade, but a handover of a cognitive entry point. When UK financial data enters a black box controlled by US political capital, Structural Violence completes its loop: your privacy is no longer guaranteed by law, but by the &quot;technical&quot; promise of a commercially driven entity with fierce political biases.</p>
+  <p>The narrative of &quot;introducing efficient tools to fight crime&quot; is a textbook example of weaponized expression. It leverages the public&#x27;s desire for &quot;efficiency&quot; and &quot;security&quot; to lure regulators into a state of complicity. The FCA believes encryption keys ensure safety, completely ignoring how Meta-Violence operates—when power decides to see, &quot;technical barriers&quot; are merely psychological placebos for the co-conspirators.</p>
+  <p>Ultimately, the data of UK citizens is being pushed into the &quot;meat grinder&quot; of the Trump administration. This is more than a loss of data sovereignty; it is the surrender of individual existence to an unpredictable, distant will of power. The so-called &quot;trial period&quot; is nothing more than a test of how smoothly this mechanism of complicity can be lubricated.</p></div>
+</article>
+
+<footer class="foot">
+  ― &nbsp; ― &nbsp; ―<br>
+  <a href="/news/">breaking news</a> &nbsp;·&nbsp; <a href="/">原初种族 The Primal Race</a>
+</footer>
+
+</div>
+
+<script>
+(function() {
+  var key = 'breaking-news-lang';
+  var saved = localStorage.getItem(key) || 'zh';
+  setLang(saved);
+  document.querySelectorAll('.lang-switch button').forEach(function(b) {
+    b.addEventListener('click', function() {
+      setLang(b.dataset.set);
+      localStorage.setItem(key, b.dataset.set);
+    });
+  });
+  function setLang(l) {
+    document.body.dataset.lang = l;
+    document.querySelectorAll('.lang-switch button').forEach(function(b) {
+      b.classList.toggle('active', b.dataset.set === l);
+    });
+  }
+})();
+</script>
+</body>
+</html>

@@ -48,7 +48,7 @@ jobs:
         run: |
           git config user.email "bot@howtoraiseiq.com"
           git config user.name "breaking-news-bot"
-          git add news/index.html news/news.db news/urls.txt 2>/dev/null || true
+          git add news/index.html news/news.db news/urls.txt news/p news/feed.xml sitemap.xml 2>/dev/null || true
           if git diff --cached --quiet; then
             echo "no changes — skipping commit"
             exit 0
@@ -67,3 +67,11 @@ jobs:
           done
           echo "failed after 3 retries"
           exit 1
+
+      - name: Post new items to Bluesky
+        if: success()
+        env:
+          BLUESKY_HANDLE: yangfei0770.bsky.social
+          BLUESKY_APP_PASSWORD: ${{ secrets.BLUESKY_APP_PASSWORD }}
+        working-directory: news
+        run: python bsky_post.py

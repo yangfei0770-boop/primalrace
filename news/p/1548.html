@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>被计算的“脆弱”与捕食者的最优解 — breaking news · 费扬</title>
+<meta name="description" content="捕食者挑选受害者，本质上是在计算结构性暴力的折现率。 — 用《原初种族》的框架读新闻，费扬评论。">
+<meta name="author" content="费扬 Yang Fei">
+<link rel="canonical" href="https://www.howtoraiseiq.com/news/p/1548">
+<link rel="alternate" type="application/rss+xml" title="breaking news · 费扬" href="https://www.howtoraiseiq.com/news/feed.xml">
+<meta property="og:type" content="article">
+<meta property="og:title" content="被计算的“脆弱”与捕食者的最优解 — breaking news · 费扬">
+<meta property="og:description" content="捕食者挑选受害者，本质上是在计算结构性暴力的折现率。">
+<meta property="og:url" content="https://www.howtoraiseiq.com/news/p/1548">
+<meta property="og:site_name" content="The Primal Race">
+<meta property="og:image" content="https://www.howtoraiseiq.com/og.png">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "\u88ab\u8ba1\u7b97\u7684\u201c\u8106\u5f31\u201d\u4e0e\u6355\u98df\u8005\u7684\u6700\u4f18\u89e3", "description": "\u6355\u98df\u8005\u6311\u9009\u53d7\u5bb3\u8005\uff0c\u672c\u8d28\u4e0a\u662f\u5728\u8ba1\u7b97\u7ed3\u6784\u6027\u66b4\u529b\u7684\u6298\u73b0\u7387\u3002", "datePublished": "2026-06-29T15:00:48+00:00", "inLanguage": "zh", "author": {"@type": "Person", "name": "Yang Fei", "alternateName": "\u8d39\u626c"}, "mainEntityOfPage": "https://www.howtoraiseiq.com/news/p/1548", "isPartOf": {"@type": "WebSite", "name": "The Primal Race", "url": "https://www.howtoraiseiq.com"}}</script>
+<script defer src="/_vercel/insights/script.js"></script>
+<script defer src="/_vercel/speed-insights/script.js"></script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-KRTMG8HV7F"></script>
+<script>
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-KRTMG8HV7F');
+</script>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --ink: #1a1109;
+  --paper: #f5f0e8;
+  --accent: #8b1a1a;
+  --accent-light: #b52020;
+  --muted: #6b5c47;
+  --border: #c9bfad;
+}
+html, body { min-height: 100%; }
+body {
+  background: var(--paper);
+  color: var(--ink);
+  font-family: "Georgia", "Noto Serif SC", "Source Han Serif CN", serif;
+  padding: 2.5rem 1.2rem 4rem;
+  line-height: 1.75;
+}
+body::before {
+  content: ""; position: fixed; inset: 0; pointer-events: none; z-index: 0;
+  background: repeating-linear-gradient(0deg,
+    transparent, transparent 28px,
+    rgba(0,0,0,0.025) 28px, rgba(0,0,0,0.025) 29px);
+}
+.wrap { max-width: 720px; margin: 0 auto; position: relative; z-index: 1; }
+
+header.masthead {
+  text-align: center;
+  border-bottom: 1px solid var(--border);
+  border-top: 5px solid var(--accent);
+  padding: 2.2rem 0 1.4rem;
+  margin-bottom: 2.4rem;
+  background: rgba(255,253,248,0.6);
+}
+.masthead .ornament {
+  color: var(--accent); font-size: 1.1rem;
+  letter-spacing: 0.4em; display: block; margin-bottom: 0.8rem;
+}
+.masthead h1 {
+  font-size: 2.4rem; font-weight: 700;
+  letter-spacing: 0.12em; line-height: 1.1;
+}
+.masthead h1 a { color: inherit; text-decoration: none; }
+.masthead .subtitle {
+  font-size: 0.85rem; letter-spacing: 0.22em;
+  text-transform: uppercase; color: var(--muted);
+  margin-top: 0.4rem;
+}
+.masthead .byline {
+  font-size: 0.82rem; color: var(--muted);
+  margin-top: 1rem; font-style: italic;
+}
+.masthead .byline a { color: var(--accent); text-decoration: none; }
+.masthead .byline a:hover { text-decoration: underline; }
+
+.crumbs {
+  margin-bottom: 1.6rem; font-size: 0.85rem;
+}
+.crumbs a { color: var(--accent); text-decoration: none; }
+.crumbs a:hover { text-decoration: underline; }
+
+article {
+  background: rgba(255,253,248,0.92);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--accent);
+  padding: 2rem 2.2rem 1.8rem;
+  margin-bottom: 2rem;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.05), 0 4px 16px rgba(0,0,0,0.04);
+}
+article.draft { border-left-color: var(--muted); opacity: 0.78; }
+article h2 {
+  font-size: 1.55rem; line-height: 1.35;
+  margin-bottom: 0.55rem; color: var(--ink);
+  letter-spacing: 0.02em;
+}
+article h2 a { color: inherit; text-decoration: none; }
+article h2 a:hover { color: var(--accent); }
+.meta {
+  font-size: 0.78rem; color: var(--muted);
+  letter-spacing: 0.05em; margin-bottom: 1.2rem;
+  display: flex; flex-wrap: wrap; gap: 0.8rem;
+  border-bottom: 1px dashed var(--border);
+  padding-bottom: 0.8rem;
+}
+.meta .tag {
+  background: var(--accent); color: #fff;
+  padding: 0.08rem 0.55rem; letter-spacing: 0.08em;
+  font-size: 0.72rem;
+}
+.meta .tag.good_news { background: #2d6a3e; }
+article.good_news { border-left-color: #2d6a3e; }
+article.good_news .axiom { color: #2d6a3e; border-left-color: #2d6a3e; }
+.meta .layer {
+  color: var(--accent); font-style: italic;
+}
+.meta .source a { color: var(--muted); text-decoration: none; }
+.meta .source a:hover { color: var(--accent); text-decoration: underline; }
+.meta .permalink a { color: var(--muted); text-decoration: none; }
+.meta .permalink a:hover { color: var(--accent); }
+
+.axiom {
+  font-size: 1.05rem; font-style: italic;
+  color: var(--accent);
+  border-left: 2px solid var(--accent);
+  padding-left: 0.9rem; margin-bottom: 1.2rem;
+  line-height: 1.55;
+}
+.body p {
+  margin-bottom: 1rem; text-align: justify;
+  text-indent: 2em;
+  font-size: 1.02rem;
+}
+.body p:last-child { margin-bottom: 0; }
+.body.lang-en p { text-indent: 0; }
+
+/* language toggle */
+.lang-switch {
+  position: fixed; top: 1rem; right: 1.2rem; z-index: 10;
+  background: rgba(255,253,248,0.95);
+  border: 1px solid var(--border);
+  font-family: inherit; font-size: 0.8rem;
+  letter-spacing: 0.12em;
+}
+.lang-switch button {
+  background: transparent; border: none; cursor: pointer;
+  padding: 0.45rem 0.85rem; font: inherit; color: var(--muted);
+  border-right: 1px solid var(--border);
+}
+.lang-switch button:last-child { border-right: none; }
+.lang-switch button.active { background: var(--accent); color: #fff; }
+body[data-lang="zh"] .lang-en { display: none; }
+body[data-lang="en"] .lang-zh { display: none; }
+body[data-lang="en"] .meta .layer { font-style: italic; }
+.no-translation {
+  font-size: 0.85rem; color: var(--muted);
+  font-style: italic; padding: 0.6rem 0;
+}
+
+.draft-badge {
+  display: inline-block; background: var(--muted); color: #fff;
+  font-size: 0.7rem; letter-spacing: 0.1em;
+  padding: 0.1rem 0.5rem; margin-left: 0.6rem;
+  vertical-align: middle;
+}
+
+footer.foot {
+  text-align: center; margin-top: 3.5rem;
+  font-size: 0.78rem; color: var(--muted);
+  letter-spacing: 0.18em;
+}
+footer.foot a { color: var(--accent); text-decoration: none; }
+
+@media (max-width: 560px) {
+  body { padding: 1.6rem 0.9rem 3rem; }
+  .masthead h1 { font-size: 1.8rem; }
+  article { padding: 1.4rem 1.2rem; }
+  article h2 { font-size: 1.3rem; }
+}
+</style>
+</head>
+<body data-lang="zh">
+
+<div class="lang-switch">
+  <button data-set="zh" class="active">中文</button>
+  <button data-set="en">EN</button>
+</div>
+
+<div class="wrap">
+
+<header class="masthead">
+  <span class="ornament">✦ &nbsp; ✦ &nbsp; ✦</span>
+  <h1><a href="/news/">breaking news</a></h1>
+  <div class="subtitle">News, read through The Primal Race</div>
+  <div class="byline">
+    by 费扬 &nbsp;·&nbsp; 数据 Claude &nbsp;·&nbsp;
+    <a href="/">回到《原初种族》</a> &nbsp;·&nbsp;
+    <a href="/news/feed.xml">RSS</a>
+  </div>
+</header>
+
+<div class="crumbs"><a href="/news/">← 全部评论 · all commentary</a></div>
+<article class="" id="a1548">
+  <h2><a href="/news/p/1548"><span class="lang-zh">被计算的“脆弱”与捕食者的最优解</span><span class="lang-en">Calculated Vulnerability and the Predator&#x27;s Optimal Expression</span></a></h2>
+  <div class="meta">
+    <span class="tag gender">性别</span>
+    <span class="layer">直接层 · 结构层 · 文化层 · 元暴力</span>
+    <span class="source"><a href="https://www.theguardian.com/uk-news/2026/jun/29/simon-levy-trial-london-predatory-sexual-attacks-court?CMP=bsky_gu" target="_blank" rel="noopener">The Guardian ↗</a></span>
+    <span class="date">2026-06-29</span>
+    <span class="permalink"><a href="/news/p/1548">§ 链接</a></span>
+  </div>
+  <div class="axiom lang-zh">捕食者挑选受害者，本质上是在计算结构性暴力的折现率。</div>
+  <div class="axiom lang-en">Predators select victims by calculating the discount rate of structural violence.</div>
+  <div class="body lang-zh"><p>这起案件中最令人作呕的不是杀戮本身，而是检方描述中那个极其精准的计算过程：Simon Levy 挑选的是“脆弱” (vulnerable) 的女性——性工作者、毒品成瘾者、被人口贩卖的异乡人。在捕食者的逻辑里，这些女性的身份标签就是一种“折扣券”，意味着更低的犯罪成本和更高的逃逸概率。</p>
+  <p>这正是加尔通暴力三角的完美闭环。在 direct 层，是掐喉、强奸和谋杀；在 structural 层，是人口贩卖、毒品依赖和性工作者被法律/社会边缘化的处境；而在 cultural 层，则是那种潜意识里的共识：这些女性的生命价值低于“正常人”，她们的失踪或死亡在既定叙事中不具备足够的紧迫感。Levy 并非在随机攻击，他是在利用 structural violence 制造的真空地带，为自己的直接暴力寻找最优解。</p>
+  <p>最讽刺的是，这些女性在被捕食之前，可能已经在这场存在性战争中输掉了所有筹码。当一个女性被贩卖到异国，或为了药物而交易身体时，她的“表达”已经被剥夺殆尽，只剩下生物墙后的生存本能。而 Levy 这种人，正是通过将女性客体化为“可消耗的资源”，在男性中心叙事的元暴力中获得了某种病态的权力确认。</p>
+  <p>这场审判如果仅仅定罪于个体的残暴，而无视那些让女性变得“脆弱”的结构性共谋，那么它依然是在维护那个让捕食者心安的旧世界。只要这个社会依然存在一个能被计算出“低成本”的群体，类似的 Levy 永远会有源源不断的补给。</p></div>
+  <div class="body lang-en"><p>The most revolting part of this case is not the killing itself, but the precise calculation described by the prosecution: Simon Levy targeted &quot;vulnerable&quot; women—sex workers, drug addicts, and victims of trafficking. In the predator&#x27;s logic, these identity labels are &quot;discount coupons,&quot; promising lower crime costs and a higher probability of escape.</p>
+  <p>This is the perfect closure of Galtung&#x27;s Violence Triangle. At the direct level, we see strangulation, rape, and murder. At the structural level, there is the marginalization of sex workers and the desperation of drug addiction. At the cultural level, there is a subconscious consensus that these women&#x27;s lives are worth less than &quot;normal&quot; people&#x27;s, making their disappearance or death less urgent in the dominant narrative. Levy was not attacking randomly; he was leveraging the vacuum created by structural violence to find the optimal expression for his direct violence.</p>
+  <p>Ironically, these women had already lost almost all their stakes in this existential war before being preyed upon. When a woman is trafficked or trades her body for drugs, her expression is completely erased, leaving only the survival instinct behind the biological wall. Levy, by objectifying women as &quot;consumable resources,&quot; achieved a pathological confirmation of power within the masculine-centric narrative of meta-violence.</p>
+  <p>If this trial only convicts individual brutality while ignoring the structural complicity that renders women &quot;vulnerable,&quot; it continues to maintain the old world that comforts the predator. As long as society maintains a group whose value can be calculated as &quot;low cost,&quot; predators like Levy will always find a steady supply.</p></div>
+</article>
+
+<footer class="foot">
+  ― &nbsp; ― &nbsp; ―<br>
+  <a href="/news/">breaking news</a> &nbsp;·&nbsp; <a href="/">原初种族 The Primal Race</a>
+</footer>
+
+</div>
+
+<script>
+(function() {
+  var key = 'breaking-news-lang';
+  var saved = localStorage.getItem(key) || 'zh';
+  setLang(saved);
+  document.querySelectorAll('.lang-switch button').forEach(function(b) {
+    b.addEventListener('click', function() {
+      setLang(b.dataset.set);
+      localStorage.setItem(key, b.dataset.set);
+    });
+  });
+  function setLang(l) {
+    document.body.dataset.lang = l;
+    document.querySelectorAll('.lang-switch button').forEach(function(b) {
+      b.classList.toggle('active', b.dataset.set === l);
+    });
+  }
+})();
+</script>
+</body>
+</html>
