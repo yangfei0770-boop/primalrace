@@ -1,0 +1,46 @@
+name: Compare models (Gemma vs Gemini)
+
+on:
+  workflow_dispatch:
+
+jobs:
+  compare:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: 'pip'
+
+      - name: Install dependencies
+        run: |
+          pip install --upgrade pip
+          pip install -r news/requirements.txt
+
+      - name: "A · Gemma (Ollama Cloud)"
+        continue-on-error: true
+        env:
+          PROVIDER:        ollama
+          OLLAMA_BASE_URL: https://ollama.com
+          OLLAMA_API_KEY:  ${{ secrets.OLLAMA_API_KEY }}
+          OLLAMA_MODEL:    gemma4:31b-cloud
+        working-directory: news
+        run: python compare_models.py
+
+      - name: "B · Gemini (Google AI Studio)"
+        continue-on-error: true
+        env:
+          PROVIDER:        openai
+          OPENAI_BASE_URL: https://generativelanguage.googleapis.com/v1beta/openai
+          OPENAI_API_KEY:  ${{ secrets.OPENAI_API_KEY }}
+          OPENAI_MODEL:    gemini-2.5-flash-lite
+        working-directory: news
+        run: python compare_models.py
