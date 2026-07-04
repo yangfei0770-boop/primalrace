@@ -76,6 +76,7 @@ jobs:
         env:
           BLUESKY_HANDLE: yang-fei0770.bsky.social
           BLUESKY_APP_PASSWORD: ${{ secrets.BLUESKY_APP_PASSWORD }}
+          TWITTER_OAUTH2_ACCESS_TOKEN: ${{ secrets.TWITTER_OAUTH2_ACCESS_TOKEN }}
           TWITTER_API_KEY: ${{ secrets.TWITTER_API_KEY }}
           TWITTER_API_SECRET: ${{ secrets.TWITTER_API_SECRET }}
           TWITTER_ACCESS_TOKEN: ${{ secrets.TWITTER_ACCESS_TOKEN }}

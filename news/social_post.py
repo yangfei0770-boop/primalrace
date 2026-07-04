@@ -92,26 +92,38 @@ def tweet_text(r) -> str:
 
 
 def post_twitter(rows) -> None:
+    """Two auth modes:
+    - TWITTER_OAUTH2_ACCESS_TOKEN (new console.x.com — user token with
+      tweet.write scope) → plain Bearer auth
+    - legacy OAuth 1.0a four-key set → signed requests
+    """
+    oauth2_token = os.environ.get("TWITTER_OAUTH2_ACCESS_TOKEN", "").strip()
     key = os.environ.get("TWITTER_API_KEY", "").strip()
     secret = os.environ.get("TWITTER_API_SECRET", "").strip()
     token = os.environ.get("TWITTER_ACCESS_TOKEN", "").strip()
     token_secret = os.environ.get("TWITTER_ACCESS_SECRET", "").strip()
-    if not all((key, secret, token, token_secret)):
+
+    auth = None
+    headers = {}
+    if oauth2_token:
+        headers = {"Authorization": f"Bearer {oauth2_token}"}
+    elif all((key, secret, token, token_secret)):
+        try:
+            from requests_oauthlib import OAuth1
+        except ImportError:
+            print("[x] requests-oauthlib not installed — skipping", file=sys.stderr)
+            return
+        auth = OAuth1(key, secret, token, token_secret)
+    else:
         print("[x] no credentials — skipping")
         return
-
-    try:
-        from requests_oauthlib import OAuth1
-    except ImportError:
-        print("[x] requests-oauthlib not installed — skipping", file=sys.stderr)
-        return
-    auth = OAuth1(key, secret, token, token_secret)
 
     for r in rows[:MAX_POSTS]:
         try:
             resp = requests.post(
                 "https://api.x.com/2/tweets",
                 auth=auth,
+                headers=headers,
                 json={"text": tweet_text(r)},
                 timeout=30,
             )
