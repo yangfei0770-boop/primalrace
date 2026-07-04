@@ -132,12 +132,22 @@ def _openai_generate(system_blocks: list[dict], user_msg: str,
         data=json.dumps(payload).encode("utf-8"),
         headers={
             "Content-Type": "application/json",
+            "User-Agent": "primalrace-news/1.0",
             **({"Authorization": f"Bearer {api_key}"} if api_key else {}),
         },
         method="POST",
     )
-    with urllib.request.urlopen(req, timeout=180) as r:
-        data = json.loads(r.read().decode("utf-8"))
+    try:
+        with urllib.request.urlopen(req, timeout=180) as r:
+            data = json.loads(r.read().decode("utf-8"))
+    except urllib.error.HTTPError as e:
+        # surface the API's own error message, not just the status line
+        body = ""
+        try:
+            body = e.read().decode("utf-8", "replace")[:500]
+        except Exception:
+            pass
+        raise RuntimeError(f"{base_url} HTTP {e.code}: {body}") from e
 
     text = data["choices"][0]["message"]["content"]
     usage = data.get("usage", {}) or {}
