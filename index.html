@@ -242,6 +242,7 @@
       transition: color 0.18s;
     }
     .novel-btn:hover .label-en { color: rgba(255,255,255,0.85); }
+    a.novel-btn { text-decoration: none; }
 
     /* News section — the second "page" of the site */
     .news-card {
@@ -520,8 +521,13 @@
 
     <button class="novel-btn" onclick="document.getElementById('modalOverlay').style.display='flex'; if(window.gtag) gtag('event','novel_open')">
       新作预告 · 科幻小说前四章<span class="arrow">→</span>
-      <span class="label-en">coming next — read the first 4 chapters</span>
+      <span class="label-en">sci-fi novel — read the first 4 chapters</span>
     </button>
+
+    <a class="novel-btn" href="/poetry" onclick="if(window.gtag) gtag('event','poetry_open')">
+      诗 · Poetry<span class="arrow">→</span>
+      <span class="label-en">poems by the author</span>
+    </a>
 
     <span class="footer-ornament">― &nbsp; ― &nbsp; ―</span>
   </div>

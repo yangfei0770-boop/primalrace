@@ -68,10 +68,14 @@ jobs:
           echo "failed after 3 retries"
           exit 1
 
-      - name: Post new items to Bluesky
+      - name: Post new items to social media
         if: success()
         env:
           BLUESKY_HANDLE: yang-fei0770.bsky.social
           BLUESKY_APP_PASSWORD: ${{ secrets.BLUESKY_APP_PASSWORD }}
+          TWITTER_API_KEY: ${{ secrets.TWITTER_API_KEY }}
+          TWITTER_API_SECRET: ${{ secrets.TWITTER_API_SECRET }}
+          TWITTER_ACCESS_TOKEN: ${{ secrets.TWITTER_ACCESS_TOKEN }}
+          TWITTER_ACCESS_SECRET: ${{ secrets.TWITTER_ACCESS_SECRET }}
         working-directory: news
-        run: python bsky_post.py
+        run: python social_post.py

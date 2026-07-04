@@ -4,3 +4,4 @@ trafilatura>=1.12
 requests>=2.31
 lxml_html_clean>=0.4
 flask>=3.0
+requests-oauthlib>=1.3

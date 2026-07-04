@@ -474,6 +474,7 @@ def write_sitemap(published_rows) -> None:
     urls = [
         (f"{SITE}/", "weekly", "1.0", None),
         (f"{SITE}/news/", "hourly", "0.9", None),
+        (f"{SITE}/poetry", "monthly", "0.7", None),
     ]
     for r in published_rows:
         lastmod = (r["generated_at"] or "")[:10] or None
