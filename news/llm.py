@@ -110,9 +110,9 @@ def _openai_generate(system_blocks: list[dict], user_msg: str,
       OPENAI_API_KEY
       OPENAI_MODEL     e.g. llama-3.3-70b-versatile / gemini-2.0-flash
     """
-    base_url = os.environ.get("OPENAI_BASE_URL", "").rstrip("/")
-    api_key = os.environ.get("OPENAI_API_KEY", "")
-    model = os.environ.get("OPENAI_MODEL", "")
+    base_url = os.environ.get("OPENAI_BASE_URL", "").strip().rstrip("/")
+    api_key = os.environ.get("OPENAI_API_KEY", "").strip()
+    model = os.environ.get("OPENAI_MODEL", "").strip()
     if not base_url or not model:
         raise ValueError("PROVIDER=openai needs OPENAI_BASE_URL and OPENAI_MODEL")
 
