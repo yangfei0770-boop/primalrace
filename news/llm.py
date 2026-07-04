@@ -97,6 +97,61 @@ def _ollama_generate(system_blocks: list[dict], user_msg: str,
 
 
 # ============================================================================
+# OpenAI-compatible (Groq, Google AI Studio, OpenRouter, ollama /v1, …)
+# ============================================================================
+
+def _openai_generate(system_blocks: list[dict], user_msg: str,
+                     max_tokens: int = 2000) -> dict:
+    """POST {base}/chat/completions — works with any OpenAI-compatible host.
+
+    Env:
+      OPENAI_BASE_URL  e.g. https://api.groq.com/openai/v1
+                       or https://generativelanguage.googleapis.com/v1beta/openai
+      OPENAI_API_KEY
+      OPENAI_MODEL     e.g. llama-3.3-70b-versatile / gemini-2.0-flash
+    """
+    base_url = os.environ.get("OPENAI_BASE_URL", "").rstrip("/")
+    api_key = os.environ.get("OPENAI_API_KEY", "")
+    model = os.environ.get("OPENAI_MODEL", "")
+    if not base_url or not model:
+        raise ValueError("PROVIDER=openai needs OPENAI_BASE_URL and OPENAI_MODEL")
+
+    system_text = "\n\n".join(b["text"] for b in system_blocks)
+    payload = {
+        "model": model,
+        "messages": [
+            {"role": "system", "content": system_text},
+            {"role": "user", "content": user_msg},
+        ],
+        "temperature": 0.7,
+        "max_tokens": max_tokens,
+        "response_format": {"type": "json_object"},
+    }
+    req = urllib.request.Request(
+        f"{base_url}/chat/completions",
+        data=json.dumps(payload).encode("utf-8"),
+        headers={
+            "Content-Type": "application/json",
+            **({"Authorization": f"Bearer {api_key}"} if api_key else {}),
+        },
+        method="POST",
+    )
+    with urllib.request.urlopen(req, timeout=180) as r:
+        data = json.loads(r.read().decode("utf-8"))
+
+    text = data["choices"][0]["message"]["content"]
+    usage = data.get("usage", {}) or {}
+    return {
+        "text": text,
+        "model": model,
+        "input_tokens": usage.get("prompt_tokens", 0) or 0,
+        "output_tokens": usage.get("completion_tokens", 0) or 0,
+        "cache_read_tokens": 0,
+        "cache_create_tokens": 0,
+    }
+
+
+# ============================================================================
 # Dispatch
 # ============================================================================
 
@@ -106,7 +161,10 @@ def generate(system_blocks: list[dict], user_msg: str,
         return _anthropic_generate(system_blocks, user_msg, max_tokens)
     if PROVIDER == "ollama":
         return _ollama_generate(system_blocks, user_msg, max_tokens)
-    raise ValueError(f"unknown PROVIDER={PROVIDER!r}; use 'anthropic' or 'ollama'")
+    if PROVIDER == "openai":
+        return _openai_generate(system_blocks, user_msg, max_tokens)
+    raise ValueError(f"unknown PROVIDER={PROVIDER!r}; "
+                     f"use 'anthropic', 'ollama' or 'openai'")
 
 
 def provider_label() -> str:
@@ -115,4 +173,7 @@ def provider_label() -> str:
     if PROVIDER == "ollama":
         host = os.environ.get("OLLAMA_BASE_URL", "https://ollama.com")
         return f"ollama@{host}/{os.environ.get('OLLAMA_MODEL', 'gemma4:31b-cloud')}"
+    if PROVIDER == "openai":
+        host = os.environ.get("OPENAI_BASE_URL", "?")
+        return f"openai@{host}/{os.environ.get('OPENAI_MODEL', '?')}"
     return PROVIDER
