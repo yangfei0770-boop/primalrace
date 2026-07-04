@@ -16,14 +16,20 @@
 <meta property="og:image" content="https://www.howtoraiseiq.com/og.png">
 <meta name="twitter:card" content="summary_large_image">
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "\u7528\u201c\u7981\u6bd2\u201d\u5305\u88c5\u7684\u6b96\u6c11\u5171\u8c0b\u4e0e\u66b4\u529b\u5faa\u73af", "description": "\u6240\u8c13\u7684\u201c\u53cd\u6bd2\u6218\u4e89\u201d\u53ea\u662f\u7537\u6027\u4e2d\u5fc3\u53d9\u4e8b\u4e0b\uff0c\u5f3a\u6743\u901a\u8fc7\u5236\u9020\u654c\u4eba\u6765\u5408\u6cd5\u5316\u519b\u4e8b\u66b4\u529b\u7684\u6b66\u5668\u5316\u8868\u8fbe\u3002", "datePublished": "2026-06-22T21:01:36+00:00", "inLanguage": "zh", "author": {"@type": "Person", "name": "Yang Fei", "alternateName": "\u8d39\u626c"}, "mainEntityOfPage": "https://www.howtoraiseiq.com/news/p/1414", "isPartOf": {"@type": "WebSite", "name": "The Primal Race", "url": "https://www.howtoraiseiq.com"}}</script>
-<script defer src="/_vercel/insights/script.js"></script>
-<script defer src="/_vercel/speed-insights/script.js"></script>
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-KRTMG8HV7F"></script>
 <script>
 window.dataLayer = window.dataLayer || [];
 function gtag(){dataLayer.push(arguments);}
-gtag('js', new Date());
-gtag('config', 'G-KRTMG8HV7F');
+// skip analytics for headless crawlers so page views reflect humans
+if (!navigator.webdriver) {
+  ['/_vercel/insights/script.js', '/_vercel/speed-insights/script.js',
+   'https://www.googletagmanager.com/gtag/js?id=G-KRTMG8HV7F'].forEach(function (src) {
+    var s = document.createElement('script');
+    s.defer = true; s.src = src;
+    document.head.appendChild(s);
+  });
+  gtag('js', new Date());
+  gtag('config', 'G-KRTMG8HV7F');
+}
 </script>
 <style>
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }

@@ -14,14 +14,19 @@
   <meta property="og:site_name" content="The Primal Race" />
   <meta property="og:image" content="https://www.howtoraiseiq.com/og.png" />
   <meta name="twitter:card" content="summary_large_image" />
-  <script defer src="/_vercel/insights/script.js"></script>
-  <script defer src="/_vercel/speed-insights/script.js"></script>
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-KRTMG8HV7F"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
     function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-    gtag('config', 'G-KRTMG8HV7F');
+    if (!navigator.webdriver) {
+      ['/_vercel/insights/script.js', '/_vercel/speed-insights/script.js',
+       'https://www.googletagmanager.com/gtag/js?id=G-KRTMG8HV7F'].forEach(function (src) {
+        var s = document.createElement('script');
+        s.defer = true; s.src = src;
+        document.head.appendChild(s);
+      });
+      gtag('js', new Date());
+      gtag('config', 'G-KRTMG8HV7F');
+    }
   </script>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }

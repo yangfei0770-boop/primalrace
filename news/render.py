@@ -60,14 +60,20 @@ PAGE_TEMPLATE = """<!DOCTYPE html>
 <meta property="og:site_name" content="The Primal Race">
 <meta property="og:image" content="{og_image}">
 <meta name="twitter:card" content="summary_large_image">
-{extra_head}<script defer src="/_vercel/insights/script.js"></script>
-<script defer src="/_vercel/speed-insights/script.js"></script>
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-KRTMG8HV7F"></script>
-<script>
+{extra_head}<script>
 window.dataLayer = window.dataLayer || [];
 function gtag(){{dataLayer.push(arguments);}}
-gtag('js', new Date());
-gtag('config', 'G-KRTMG8HV7F');
+// skip analytics for headless crawlers so page views reflect humans
+if (!navigator.webdriver) {{
+  ['/_vercel/insights/script.js', '/_vercel/speed-insights/script.js',
+   'https://www.googletagmanager.com/gtag/js?id=G-KRTMG8HV7F'].forEach(function (src) {{
+    var s = document.createElement('script');
+    s.defer = true; s.src = src;
+    document.head.appendChild(s);
+  }});
+  gtag('js', new Date());
+  gtag('config', 'G-KRTMG8HV7F');
+}}
 </script>
 <style>
 *, *::before, *::after {{ box-sizing: border-box; margin: 0; padding: 0; }}
