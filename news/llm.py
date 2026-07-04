@@ -137,17 +137,25 @@ def _openai_generate(system_blocks: list[dict], user_msg: str,
         },
         method="POST",
     )
-    try:
-        with urllib.request.urlopen(req, timeout=180) as r:
-            data = json.loads(r.read().decode("utf-8"))
-    except urllib.error.HTTPError as e:
-        # surface the API's own error message, not just the status line
-        body = ""
+    data = None
+    for attempt in range(3):
         try:
-            body = e.read().decode("utf-8", "replace")[:500]
-        except Exception:
-            pass
-        raise RuntimeError(f"{base_url} HTTP {e.code}: {body}") from e
+            with urllib.request.urlopen(req, timeout=180) as r:
+                data = json.loads(r.read().decode("utf-8"))
+            break
+        except urllib.error.HTTPError as e:
+            body = ""
+            try:
+                body = e.read().decode("utf-8", "replace")[:500]
+            except Exception:
+                pass
+            # 503 = provider capacity spike, 429 = per-minute rate limit —
+            # both are transient, back off and retry
+            if e.code in (429, 503) and attempt < 2:
+                import time
+                time.sleep(15 * (attempt + 1))
+                continue
+            raise RuntimeError(f"{base_url} HTTP {e.code}: {body}") from e
 
     text = data["choices"][0]["message"]["content"]
     usage = data.get("usage", {}) or {}
