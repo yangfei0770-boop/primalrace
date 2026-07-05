@@ -41,6 +41,6 @@ jobs:
           PROVIDER:        openai
           OPENAI_BASE_URL: https://generativelanguage.googleapis.com/v1beta/openai
           OPENAI_API_KEY:  ${{ secrets.OPENAI_API_KEY }}
-          OPENAI_MODEL:    gemini-2.5-flash-lite
+          OPENAI_MODEL:    gemini-2.5-flash
         working-directory: news
         run: python compare_models.py
