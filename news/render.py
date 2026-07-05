@@ -63,8 +63,14 @@ PAGE_TEMPLATE = """<!DOCTYPE html>
 {extra_head}<script>
 window.dataLayer = window.dataLayer || [];
 function gtag(){{dataLayer.push(arguments);}}
-// skip analytics for headless crawlers so page views reflect humans
-if (!navigator.webdriver) {{
+// owner opt-out: visit once with ?me=1 to stop being counted on this device
+try {{
+  var q = new URLSearchParams(location.search);
+  if (q.get('me') === '1') localStorage.setItem('pr-owner', '1');
+  if (q.get('me') === '0') localStorage.removeItem('pr-owner');
+}} catch (e) {{}}
+// skip analytics for headless crawlers + the site owner
+if (!navigator.webdriver && localStorage.getItem('pr-owner') !== '1') {{
   ['/_vercel/insights/script.js', '/_vercel/speed-insights/script.js',
    'https://www.googletagmanager.com/gtag/js?id=G-KRTMG8HV7F'].forEach(function (src) {{
     var s = document.createElement('script');

@@ -17,7 +17,12 @@
   <script>
     window.dataLayer = window.dataLayer || [];
     function gtag(){dataLayer.push(arguments);}
-    if (!navigator.webdriver) {
+    try {
+      var q = new URLSearchParams(location.search);
+      if (q.get('me') === '1') localStorage.setItem('pr-owner', '1');
+      if (q.get('me') === '0') localStorage.removeItem('pr-owner');
+    } catch (e) {}
+    if (!navigator.webdriver && localStorage.getItem('pr-owner') !== '1') {
       ['/_vercel/insights/script.js', '/_vercel/speed-insights/script.js',
        'https://www.googletagmanager.com/gtag/js?id=G-KRTMG8HV7F'].forEach(function (src) {
         var s = document.createElement('script');
