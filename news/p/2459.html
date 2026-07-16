@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Slop：一种新型的、大规模的认知侵占 — breaking news · 费扬</title>
+<meta name="description" content="当AI将人生简化为概率分布，表达便成了最廉价的剥削。 — 用《原初种族》的框架读新闻，费扬评论。">
+<meta name="author" content="费扬 Yang Fei">
+<link rel="canonical" href="https://www.howtoraiseiq.com/news/p/2459">
+<link rel="alternate" type="application/rss+xml" title="breaking news · 费扬" href="https://www.howtoraiseiq.com/news/feed.xml">
+<meta property="og:type" content="article">
+<meta property="og:title" content="AI Slop：一种新型的、大规模的认知侵占 — breaking news · 费扬">
+<meta property="og:description" content="当AI将人生简化为概率分布，表达便成了最廉价的剥削。">
+<meta property="og:url" content="https://www.howtoraiseiq.com/news/p/2459">
+<meta property="og:site_name" content="The Primal Race">
+<meta property="og:image" content="https://www.howtoraiseiq.com/og.png">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "AI Slop\uff1a\u4e00\u79cd\u65b0\u578b\u7684\u3001\u5927\u89c4\u6a21\u7684\u8ba4\u77e5\u4fb5\u5360", "description": "\u5f53AI\u5c06\u4eba\u751f\u7b80\u5316\u4e3a\u6982\u7387\u5206\u5e03\uff0c\u8868\u8fbe\u4fbf\u6210\u4e86\u6700\u5ec9\u4ef7\u7684\u5265\u524a\u3002", "datePublished": "2026-07-16T20:30:46+00:00", "inLanguage": "zh", "author": {"@type": "Person", "name": "Yang Fei", "alternateName": "\u8d39\u626c"}, "mainEntityOfPage": "https://www.howtoraiseiq.com/news/p/2459", "isPartOf": {"@type": "WebSite", "name": "The Primal Race", "url": "https://www.howtoraiseiq.com"}}</script>
+<script>
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+// owner opt-out: visit once with ?me=1 to stop being counted on this device
+try {
+  var q = new URLSearchParams(location.search);
+  if (q.get('me') === '1') localStorage.setItem('pr-owner', '1');
+  if (q.get('me') === '0') localStorage.removeItem('pr-owner');
+} catch (e) {}
+// skip analytics for headless crawlers + the site owner
+if (!navigator.webdriver && localStorage.getItem('pr-owner') !== '1') {
+  ['/_vercel/insights/script.js', '/_vercel/speed-insights/script.js',
+   'https://www.googletagmanager.com/gtag/js?id=G-KRTMG8HV7F'].forEach(function (src) {
+    var s = document.createElement('script');
+    s.defer = true; s.src = src;
+    document.head.appendChild(s);
+  });
+  gtag('js', new Date());
+  gtag('config', 'G-KRTMG8HV7F');
+}
+</script>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --ink: #1a1109;
+  --paper: #f5f0e8;
+  --accent: #8b1a1a;
+  --accent-light: #b52020;
+  --muted: #6b5c47;
+  --border: #c9bfad;
+}
+html, body { min-height: 100%; }
+body {
+  background: var(--paper);
+  color: var(--ink);
+  font-family: "Georgia", "Noto Serif SC", "Source Han Serif CN", serif;
+  padding: 2.5rem 1.2rem 4rem;
+  line-height: 1.75;
+}
+body::before {
+  content: ""; position: fixed; inset: 0; pointer-events: none; z-index: 0;
+  background: repeating-linear-gradient(0deg,
+    transparent, transparent 28px,
+    rgba(0,0,0,0.025) 28px, rgba(0,0,0,0.025) 29px);
+}
+.wrap { max-width: 720px; margin: 0 auto; position: relative; z-index: 1; }
+
+header.masthead {
+  text-align: center;
+  border-bottom: 1px solid var(--border);
+  border-top: 5px solid var(--accent);
+  padding: 2.2rem 0 1.4rem;
+  margin-bottom: 2.4rem;
+  background: rgba(255,253,248,0.6);
+}
+.masthead .ornament {
+  color: var(--accent); font-size: 1.1rem;
+  letter-spacing: 0.4em; display: block; margin-bottom: 0.8rem;
+}
+.masthead h1 {
+  font-size: 2.4rem; font-weight: 700;
+  letter-spacing: 0.12em; line-height: 1.1;
+}
+.masthead h1 a { color: inherit; text-decoration: none; }
+.masthead .subtitle {
+  font-size: 0.85rem; letter-spacing: 0.22em;
+  text-transform: uppercase; color: var(--muted);
+  margin-top: 0.4rem;
+}
+.masthead .byline {
+  font-size: 0.82rem; color: var(--muted);
+  margin-top: 1rem; font-style: italic;
+}
+.masthead .byline a { color: var(--accent); text-decoration: none; }
+.masthead .byline a:hover { text-decoration: underline; }
+
+.crumbs {
+  margin-bottom: 1.6rem; font-size: 0.85rem;
+}
+.crumbs a { color: var(--accent); text-decoration: none; }
+.crumbs a:hover { text-decoration: underline; }
+
+article {
+  background: rgba(255,253,248,0.92);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--accent);
+  padding: 2rem 2.2rem 1.8rem;
+  margin-bottom: 2rem;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.05), 0 4px 16px rgba(0,0,0,0.04);
+}
+article.draft { border-left-color: var(--muted); opacity: 0.78; }
+article h2 {
+  font-size: 1.55rem; line-height: 1.35;
+  margin-bottom: 0.55rem; color: var(--ink);
+  letter-spacing: 0.02em;
+}
+article h2 a { color: inherit; text-decoration: none; }
+article h2 a:hover { color: var(--accent); }
+.meta {
+  font-size: 0.78rem; color: var(--muted);
+  letter-spacing: 0.05em; margin-bottom: 1.2rem;
+  display: flex; flex-wrap: wrap; gap: 0.8rem;
+  border-bottom: 1px dashed var(--border);
+  padding-bottom: 0.8rem;
+}
+.meta .tag {
+  background: var(--accent); color: #fff;
+  padding: 0.08rem 0.55rem; letter-spacing: 0.08em;
+  font-size: 0.72rem;
+}
+.meta .tag.good_news { background: #2d6a3e; }
+article.good_news { border-left-color: #2d6a3e; }
+article.good_news .axiom { color: #2d6a3e; border-left-color: #2d6a3e; }
+.meta .layer {
+  color: var(--accent); font-style: italic;
+}
+.meta .source a { color: var(--muted); text-decoration: none; }
+.meta .source a:hover { color: var(--accent); text-decoration: underline; }
+.meta .permalink a { color: var(--muted); text-decoration: none; }
+.meta .permalink a:hover { color: var(--accent); }
+
+.axiom {
+  font-size: 1.05rem; font-style: italic;
+  color: var(--accent);
+  border-left: 2px solid var(--accent);
+  padding-left: 0.9rem; margin-bottom: 1.2rem;
+  line-height: 1.55;
+}
+.body p {
+  margin-bottom: 1rem; text-align: justify;
+  text-indent: 2em;
+  font-size: 1.02rem;
+}
+.body p:last-child { margin-bottom: 0; }
+.body.lang-en p { text-indent: 0; }
+
+/* language toggle */
+.lang-switch {
+  position: fixed; top: 1rem; right: 1.2rem; z-index: 10;
+  background: rgba(255,253,248,0.95);
+  border: 1px solid var(--border);
+  font-family: inherit; font-size: 0.8rem;
+  letter-spacing: 0.12em;
+}
+.lang-switch button {
+  background: transparent; border: none; cursor: pointer;
+  padding: 0.45rem 0.85rem; font: inherit; color: var(--muted);
+  border-right: 1px solid var(--border);
+}
+.lang-switch button:last-child { border-right: none; }
+.lang-switch button.active { background: var(--accent); color: #fff; }
+body[data-lang="zh"] .lang-en { display: none; }
+body[data-lang="en"] .lang-zh { display: none; }
+body[data-lang="en"] .meta .layer { font-style: italic; }
+.no-translation {
+  font-size: 0.85rem; color: var(--muted);
+  font-style: italic; padding: 0.6rem 0;
+}
+
+.draft-badge {
+  display: inline-block; background: var(--muted); color: #fff;
+  font-size: 0.7rem; letter-spacing: 0.1em;
+  padding: 0.1rem 0.5rem; margin-left: 0.6rem;
+  vertical-align: middle;
+}
+
+footer.foot {
+  text-align: center; margin-top: 3.5rem;
+  font-size: 0.78rem; color: var(--muted);
+  letter-spacing: 0.18em;
+}
+footer.foot a { color: var(--accent); text-decoration: none; }
+
+@media (max-width: 560px) {
+  body { padding: 1.6rem 0.9rem 3rem; }
+  .masthead h1 { font-size: 1.8rem; }
+  article { padding: 1.4rem 1.2rem; }
+  article h2 { font-size: 1.3rem; }
+}
+</style>
+</head>
+<body data-lang="zh">
+
+<div class="lang-switch">
+  <button data-set="zh" class="active">中文</button>
+  <button data-set="en">EN</button>
+</div>
+
+<div class="wrap">
+
+<header class="masthead">
+  <span class="ornament">✦ &nbsp; ✦ &nbsp; ✦</span>
+  <h1><a href="/news/">breaking news</a></h1>
+  <div class="subtitle">News, read through The Primal Race</div>
+  <div class="byline">
+    <span class="lang-zh">by 费扬 &nbsp;·&nbsp; 数据 Claude &nbsp;·&nbsp;
+    <a href="/">回到《原初种族》</a> &nbsp;·&nbsp;
+    <a href="/news/feed.xml">RSS</a></span>
+    <span class="lang-en">by Yang Fei &nbsp;·&nbsp; data Claude &nbsp;·&nbsp;
+    <a href="/">back to The Primal Race</a> &nbsp;·&nbsp;
+    <a href="/news/feed.xml">RSS</a></span>
+  </div>
+</header>
+
+<div class="crumbs"><a href="/news/">← 全部评论 · all commentary</a></div>
+<article class="" id="a2459">
+  <h2><a href="/news/p/2459"><span class="lang-zh">AI Slop：一种新型的、大规模的认知侵占</span><span class="lang-en">AI Slop: A New Form of Mass Cognitive Occupation</span></a></h2>
+  <div class="meta">
+    <span class="tag tech">科技</span>
+    <span class="layer">文化层 · 元暴力</span>
+    <span class="source"><a href="https://www.nytimes.com/2026/07/16/technology/ai-slop-books-biography-amazon.html?smid=bsky-nytimes&amp;smtyp=cur" target="_blank" rel="noopener">The New York Times ↗</a></span>
+    <span class="date">2026-07-16</span>
+    <span class="permalink"><a href="/news/p/2459">§ 链接</a></span>
+  </div>
+  <div class="axiom lang-zh">当AI将人生简化为概率分布，表达便成了最廉价的剥削。</div>
+  <div class="axiom lang-en">When AI reduces life to probability distributions, expression becomes the cheapest form of exploitation.</div>
+  <div class="body lang-zh"><p>这不仅仅是关于“AI垃圾信息”(AI slop)的吐槽，而是一次典型的认知入口抢占。在存在性战争中，表达是确证一个人的存在方式，但当一个由stock photo伪装的“资深传记作者”通过算法大规模制造传记时，他实际上是在进行一种低成本的“身份殖民”。</p>
+  <p>这些AI传记通过抓取公开数据，将复杂的个体生命简化为一组通用模版（如那段令人尴尬的“矛盾论”描述）。这种行为的本质是夺取解释权：一个人是谁，不再由其主体性的表达决定，而由一个旨在获利的算法模型决定。当AI决定你的“矛盾”在哪里，决定你的“咖啡仪式”时，它在试图定义你的事实，从而制造一个伪造的真实。</p>
+  <p>最讽刺的是Dan Rather的反应。他不仅接受了这种伪造，甚至在Facebook上为其背书。这是一种典型的共谋——当一个人在既有的权力结构中获得足够多的认同，他倾向于接受任何能强化其“被仰望主体”地位的叙事，即便那是毫无灵魂的AI垃圾。这种对“神格化”的渴求，让受害者成为了自己枷锁的维护者。</p>
+  <p>Amazon的推荐算法则完成了最后的闭环。它不关心真实，只关心“关联性”。在这种机制下，人的生命被物化为可消费的标签，而真正的个体表达在海量的AI slop中被稀释、淹没。这正是文化暴力的现代升级版：不再是通过禁止你表达，而是通过制造无数个伪造的你，让你在噪音中失去定义自己的能力。</p></div>
+  <div class="body lang-en"><p>This is not merely a complaint about &quot;AI slop&quot;; it is a textbook case of seizing cognitive entry points. In the existential war, expression is the confirmation of one&#x27;s existence. However, when a &quot;seasoned biographer&quot;—masked by a stock photo—mass-produces biographies via algorithms, he is performing a low-cost &quot;identity colonization.&quot;</p>
+  <p>These AI biographies scrape public data to flatten complex lives into generic templates (like that excruciating description of &quot;contradictions&quot;). The essence here is the seizure of the right to interpret: who a person is is no longer decided by their own subjective expression, but by a profit-driven algorithmic model. When AI decides where your &quot;contradictions&quot; lie or describes your &quot;coffee ritual,&quot; it is attempting to define your facts, thereby manufacturing a fake reality.</p>
+  <p>The most ironic part is Dan Rather&#x27;s reaction. He didn&#x27;t just accept this fabrication; he endorsed it on Facebook. This is a classic case of complicity—when an individual has gained enough recognition within a power structure, they tend to embrace any narrative that reinforces their status as an &quot;admired subject,&quot; even if it is soulless AI garbage. This craving for apotheosis makes the victim a maintainer of their own shackles.</p>
+  <p>Amazon&#x27;s recommendation algorithm completes the loop. It doesn&#x27;t care about truth, only &quot;relevance.&quot; In this mechanism, human life is objectified into consumable tags, and genuine individual expression is diluted and drowned out by a sea of AI slop. This is the modern upgrade of cultural violence: not by forbidding you from speaking, but by creating countless fake versions of you, until you lose the ability to define yourself amidst the noise.</p></div>
+</article>
+
+<footer class="foot">
+  ― &nbsp; ― &nbsp; ―<br>
+  <a href="/news/">breaking news</a> &nbsp;·&nbsp; <a href="/">原初种族 The Primal Race</a>
+</footer>
+
+</div>
+
+<script>
+(function() {
+  var key = 'breaking-news-lang';
+  var saved = localStorage.getItem(key) || 'zh';
+  setLang(saved);
+  document.querySelectorAll('.lang-switch button').forEach(function(b) {
+    b.addEventListener('click', function() {
+      setLang(b.dataset.set);
+      localStorage.setItem(key, b.dataset.set);
+    });
+  });
+  function setLang(l) {
+    document.body.dataset.lang = l;
+    document.querySelectorAll('.lang-switch button').forEach(function(b) {
+      b.classList.toggle('active', b.dataset.set === l);
+    });
+  }
+})();
+</script>
+</body>
+</html>
