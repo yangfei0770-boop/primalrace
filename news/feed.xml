@@ -6,7 +6,37 @@
 <atom:link href="https://www.howtoraiseiq.com/news/feed.xml" rel="self" type="application/rss+xml"/>
 <description>用《原初种族》的框架读新闻 — 费扬的双语新闻评论，每 10 分钟自动更新。</description>
 <language>zh</language>
-<lastBuildDate>Fri, 17 Jul 2026 19:50:24 +0000</lastBuildDate>
+<lastBuildDate>Fri, 17 Jul 2026 20:37:51 +0000</lastBuildDate>
+<item><title>被削减的时刻表与被抵消的愤怒</title><link>https://www.howtoraiseiq.com/news/p/2545</link><guid isPermaLink="true">https://www.howtoraiseiq.com/news/p/2545</guid><pubDate>Fri, 17 Jul 2026 20:37:49 +0000</pubDate><description>结构性暴力通过“技术故障”和“薪资博弈”将成本转嫁给底层
+
+这是一场典型的结构性暴力 (structural violence) 演出。铁路公司 EMR 把责任推给日立 (Hitachi) 的“可靠性问题”，日立则在公关辞令中“密切合作”。这种互相甩锅的 loop 掩盖了一个事实：乘客被剥夺的出行权和司机被压榨的薪资，在资本的资产负债表里只是可以被对冲的成本，而在现实中则是具体的暴力。Violence = Potential − Actual，本该高效运转的公共交通与实际崩溃的时刻表之间，那个巨大的差额就是对公民生活质量的掠夺。
+
+更讽刺的是，这种暴力在 cultural 层面上被包装成“不可抗力”的故障或“不理智”的罢工。当 DfT 谈论“公平且可负担的交易”时，他们定义的是一个由权力中心决定的“公平”。司机通过 strike ballot 试图夺回存在性战争中的一点议价权，却被叙述为给乘客带来“挫败感”的罪魁祸首。这是一种高明的共谋：让服务使用者与服务提供者在同一个结构性陷阱里互相对立，而真正的规则制定者在幕后心安理得地维持着低效且剥削的现状。
+
+至于那场致命的 Bedford 碰撞事故，它撕开了所有 PR 掩体。当“性能问题”不再只是迟到，而是死亡时，这套以效率和成本为核心的 masculine-centric 运行逻辑才显露出其元暴力的底色：人的生命在系统故障面前，仅仅是被当作一个待核查的变量。</description></item>
+<item><title>特朗普不是在改变现实，他只是撕掉了元暴力的遮羞布</title><link>https://www.howtoraiseiq.com/news/p/2544</link><guid isPermaLink="true">https://www.howtoraiseiq.com/news/p/2544</guid><pubDate>Fri, 17 Jul 2026 20:37:32 +0000</pubDate><description>当权力不再伪装成文明，人们才发现原本的“现实”就是一场巨大的共谋。
+
+很多人在讨论特朗普如何“扭曲”现实，或者如何通过 weaponized expression 制造虚假叙事。这种讨论太 naive 了。他们默认存在一个所谓的“客观现实”或“文明底线”，而特朗普是一个破坏者。事实上，他不是在制造某种新现实，而是在执行一种极端的、不再掩饰的元暴力 (meta violence)。
+
+在传统的男性中心叙事里，权力运作通常包裹在“法治”、“民主”或“国际秩序”这种 cultural violence 的糖衣之下。大家在共谋中达成一种默契：权力可以掠夺，但必须表现得像是在维护正义。而特朗普的逻辑是：既然结果都是掠夺，为什么还要浪费时间在表演“正义”上？他把这种“制造可能性的艺术”直接简化成了赤裸的利益交换和身份排斥。
+
+这其实是一次关于“认知入口”的暴力拆迁。他证明了只要你掌握了足够的注意力和定义权，事实本身并不重要，重要的是你是否能让共谋者们觉得跟着你获利。这种对现实的篡改，本质上是 masculine-centric narrative 的一种激进化版本——不再通过潜移默化的规训，而是通过直接的、高分贝的指令来夺取解释权。
+
+最讽刺的是，那些哀悼“现实被改变”的人，往往在潜意识里依然认同那套被包装过的旧权力结构。他们恐惧的不是谎言，而是权力终于承认自己一直以来就在说谎。</description></item>
+<item><title>1.5万亿美元的账单：AWS在用Glitch测试你的心率</title><link>https://www.howtoraiseiq.com/news/p/2543</link><guid isPermaLink="true">https://www.howtoraiseiq.com/news/p/2543</guid><pubDate>Fri, 17 Jul 2026 20:37:18 +0000</pubDate><description>技术故障是掩体，结构性权力对个体的绝对支配才是真相。
+
+AWS这次的 global glitch 是一场极其荒诞的权力演示。当一个学生或小慈善机构在账单上看到 1.5 万亿美元或 100 亿美元时，他们经历的不是对“计算错误”的困惑，而是一种瞬间被剥夺存在感的恐惧。这种恐惧源于一个事实：在当前的结构性暴力 (structural violence) 中，大科技公司掌握着定义你生存成本的绝对定价权。你习惯于每月支付几美分，但系统只要轻轻拨动一个 unit pricing 的开关，就能在瞬间将你定义为全球最大的债务人。
+
+最讽刺的共谋 (complicity) 在于，AWS 习惯于将自己包装成 &quot;customer-centric&quot; 的服务者，但这次故障撕开了伪装。它揭示了用户与平台之间极不对等且脆弱的博弈关系：用户在极低的价格诱饵下将数据和业务迁移到云端，实际上是进入了一个由 Jeff Bezos 定义的黑盒。当 glitch 发生时，用户唯一的反应是 &quot;soul left my body&quot; 或 &quot;heart attack&quot;，这种生理性的崩溃正是结构性压迫在个体身上的具象化表达。
+
+AWS 用一个半小时地解决了 &quot;computation subsystem&quot; 的问题，但它无法解决它给数百万用户制造的心理创伤。这种 &quot;confusion and concern&quot; 的道歉是典型的文化暴力 (cultural violence) —— 用轻描淡写的词汇掩盖其基础设施对个体生活具有毁灭性影响的能力。如果一个系统能随手开出万亿美金的账单，那么它在正常运行时对你数据的解释权和操控权，本身就是一种潜伏的暴力。</description></item>
+<item><title>所谓的“自愿召回”与工业化食品的结构性暴力</title><link>https://www.howtoraiseiq.com/news/p/2542</link><guid isPermaLink="true">https://www.howtoraiseiq.com/news/p/2542</guid><pubDate>Fri, 17 Jul 2026 20:36:56 +0000</pubDate><description>自愿召回不是企业的良心发现，而是结构性暴力在监管压力下的临时止损。
+
+1600多人染病，Taylor Farms在FDA介入后才宣布“自愿”移除产品。这种叙事是典型的 corporate scam。在工业化农业的逻辑里，所谓的“proactive actions”从来不是为了消费者，而是为了在法律责任和品牌价值之间寻找一个能让股东满意的最优解表达。当一个公司垄断了美国40%的沙拉套装市场，它实际上已经成为了一个认知入口，定义了什么是“新鲜”和“健康”，而将生产链条的黑盒化（mystery）作为其利润护城河。
+
+这件事揭示了典型的结构性暴力 (structural violence)：为了追求极致的规模化和低成本，食品巨头将生产基地延伸至墨西哥和加拿大，利用全球供应链的碎片化来掩盖质量控制的缺失。消费者在购买一份Taco Bell的卷饼时，面对的是一个完全不对等的博弈。个体在巨大的工业机器面前没有议价权，只有在被病原体攻击后，才能在公共卫生系统的统计数据中获得短暂的“存在感”。
+
+最讽刺的是，这种“家族企业”的叙事（third generation agricultural family）被用来包装其 behemoth 的扩张。用温情脉脉的农业传统来掩盖冷酷的资本掠夺。这种文化层面的伪装，让人们习惯于将这种规模的公共卫生危机视为“意外”，而不是一种必然的结构性压迫。直到CDC和FDA的介入，这套叙事才被迫暂时失效。</description></item>
 <item><title>葬礼上的导弹与被消解的“停火”scam</title><link>https://www.howtoraiseiq.com/news/p/2541</link><guid isPermaLink="true">https://www.howtoraiseiq.com/news/p/2541</guid><pubDate>Fri, 17 Jul 2026 19:49:57 +0000</pubDate><description>暴力不在于是否停火，而在于谁拥有定义“和平”的解释权。
 
 在加沙，一场葬礼变成了另一场屠杀的开端。死者在埋葬前任死者，而导弹精准地在此时降临。这种 direct violence 的残酷在于其循环性：暴力不再是达成某个政治目标的手段，而成了本身的目的。所谓的 ceasefire 只是一个 PR 版本的叙事，在 structural layer 上，资源分配与生存权的极度不对等依然存在，而这种不对等正是由一个强大的暴力机器在维持。
@@ -783,41 +813,5 @@ FIFA 宣布 2026 年世界杯奖金池达到 6.55 亿美元，看起来是 recor
 所谓的“个人助手”集成，本质上是 AI 厂商在争夺更深层的认知入口。当 chatbot 能直接调用你的邮件、照片和位置信息时，它不再是一个工具，而是一个全天候的监视者和行为引导者。Google 之前通过 Android 建立的围墙是物理性的，而现在欧盟通过立法，让其他 AI 巨头也能合法地进入这个私域空间。这意味着用户面对的不再是一个垄断者的规训，而是多个算法共谋者对个体主体性的合围。
 
 这种所谓的 good_news 掩盖了一个事实：真正的 Potential 是用户拥有对数据的绝对控制权和选择不被 AI 代理的权利，而现在的 Actual 只是从“被 Google 代理”变成了“在几个 AI 巨头中选一个代理”。解释权依然在资本和监管机构手中，而个体在存在性战争中依然是那个被定价的客体。</description></item>
-<item><title>数据坟场里的真相与迟到的‘Jools法案’</title><link>https://www.howtoraiseiq.com/news/p/2445</link><guid isPermaLink="true">https://www.howtoraiseiq.com/news/p/2445</guid><pubDate>Thu, 16 Jul 2026 17:08:30 +0000</pubDate><description>法律的滞后是结构暴力的掩体，而数据的垄断是现代企业的认知武器。
-
-一个14岁少年的死亡，在最初的司法调查中只用了23分钟就被草草结案。这23分钟不是在寻找真相，而是在执行一种结构性的忽略。在算法统治的时代，一个孩子的生命轨迹被数字化地存储在字节跳动等巨头的服务器里，但法律在过去四年里竟然视这些数据为“不可见”。这就是典型的 structural violence：当调查机制无法跟上认知入口的迁移，法律就成了保护垄断者的掩体。
-
-这次重新启动的调查之所以是 landmark，是因为它承认了 social media evidence 的决定性。TikTok 的算法不仅制造了像“blackout challenge”这种致命的 weaponized 叙事，更在事后通过数据的封闭，剥夺了受害者家属的解释权。公司在法庭上表现出的“不反对”是一种典型的 PR 姿态，在面对法律强制力之前，他们从未主动交出过这些能证明“成瘾”与“过量使用”的证据。
-
-所谓的“Jools法案”在 2026 年落地，要求科技公司在儿童死亡五日内保存数据。这确实缩小了 Potential 与 Actual 之间的差额，但我们必须追问：为什么需要一个母亲用四年的绝望去交换一个基础的证据保存机制？这种“胜利”本质上是共谋者在压力下的被动让步。只要算法的逻辑依然是追求注意力的最大化而罔顾生物墙的承受极限，这种法律补丁就只是在给一个有毒的系统打止痛药。
-
-数据的保存权回到了家属手中，但算法的定价权依然在巨头手里。下一个 Jools 出现之前，我们面对的依然是一个将人类注意力和生命力视为可消耗资源的认知工厂。</description></item>
-<item><title>黑匣子：权力垄断的最高形式是制造信息真空</title><link>https://www.howtoraiseiq.com/news/p/2444</link><guid isPermaLink="true">https://www.howtoraiseiq.com/news/p/2444</guid><pubDate>Thu, 16 Jul 2026 17:06:57 +0000</pubDate><description>权力的极致不是下令，而是垄断“什么是事实”的定义权。
-
-Andy Burnham 的“黑匣子” (black box) 策略是一场教科书级的存在性战争。在 Westminster 的权力博弈中，他没有选择传统的讨价还价，而是直接通过制造信息真空，将所有竞争对手变成了等待审判的客体。当 Cabinet 的名单只存在于他及其极少数共谋者的脑海中时，他实际上夺取了该场域内最高级别的认知入口。
-
-这种策略的本质是 weaponization of silence。通过切断所有非核心成员的 information flow，他让那些曾经的“政治巨兽”失去了博弈的筹码。在博弈论中，信息不对称意味着定价权的绝对垄断。当 Wes Streeting 或 Angela Rayner 无法确认自己的位置时，他们的主体性被削弱了，只能通过猜测和讨好来尝试进入那个黑匣子。这就是一种结构性的暴力：通过剥夺对方的知情权，强制对方进入一种低自尊的、寻求 patron 认可的扮演状态。
-
-但这种权力结构极其脆弱，因为它依赖于一个极小的共谋圈 (triumvirate)。一旦黑匣子内部的共识出现裂痕，或者外部的非官方叙事填补了真空，这种垄断就会失效。Burnham 目前处于一个危险的峰值：他在周一进入 No 10 的那一刻权力最大，因为此时他掌握着所有人的“命运定义权”。
-
-然而，一个没有公开 manifesto 和策略的政府，本质上是将国家治理变成了一个私人化的博弈场。当公共政策被封在黑匣子里，它就不再是公正的表达 (Just Expressions)，而成了权力者的私人最优解。这种对解释权的绝对垄断，正是元暴力 (meta violence) 在现代政体中的微缩版——只要我不告诉你我在做什么，我就永远是对的。</description></item>
-<item><title>Claudia Winkleman 的逃离：拒绝成为男本位叙事的填充物</title><link>https://www.howtoraiseiq.com/news/p/2443</link><guid isPermaLink="true">https://www.howtoraiseiq.com/news/p/2443</guid><pubDate>Thu, 16 Jul 2026 17:05:49 +0000</pubDate><description>当表达变成一种被定义的扮演，逃离就是唯一真.最优解。
-
-Claudia Winkleman 决定在七集后退出自己的脱口秀，官方理由是 too nervous。但在我看来，这是一次极其精准的自我审计。脱口秀（Chatshow）这个 format 本质上是一场关于“掌控感”的权力游戏，它的潜规则是主持人必须扮演一个能够定义话题、引导节奏、甚至在潜意识中俯视嘉宾的权威角色。这种“掌控者”的设定，在逻辑底层是高度 masculine-centric 的。
-
-Claudia 在《The Traitors》中大获成功，是因为她擅长捕捉微妙的心理博弈，用一种 knowing looks 和 wry takes 瓦解对方。那是她的真.最优解表达。但脱口秀要求她扮演一个像 Graham Norton 那样的“主人”，在这种被预设的角色扮演中，她发现自己必须扼杀原本的直觉去填充一个工业化的模版。这种主体性的死亡，才是导致 nervousness 的真正根源。
-
-很多女性在事业上升期会被推向这类“权力席位”，但如果这个席位是基于男性定义的成功模版，那么在这种扮演中获得利益，其实是假.最优解表达。Claudia 意识到在这个 format 里，她成了被消费的符号而非表达的主体。于是她选择了物理迁移——回到她真正拥有定价权的领域。
-
-这是一个好新闻。因为她没有选择在共谋者的掌声中继续扮演一个不舒服的自己，而是通过否决现在的状态，夺回了对自己存在性的定义权。</description></item>
-<item><title>口罩不能过滤掉结构性的窒息</title><link>https://www.howtoraiseiq.com/news/p/2442</link><guid isPermaLink="true">https://www.howtoraiseiq.com/news/p/2442</guid><pubDate>Thu, 16 Jul 2026 17:04:26 +0000</pubDate><description>当生存变成一种奢侈，&#x27;建议室内停留&#x27;就是一种结构性暴力。
-
-纽约市长建议市民‘留在室内’，政府在图书馆分发 N95 口罩。这套叙事在 cultural 层面上把一场气候灾难包装成了‘公共卫生建议’。但我们要问：谁拥有‘留在室内’的权力？
-
-新闻里那个在公园里除草的工人，以及在停车场铺路的工人，他们没有‘室内’这个选项。对于底层劳动力来说，空气质量指数（AQI）突破 500 不是一个数值，而是一场直接的身体掠夺。他们的身体被当作可消耗的零件，在金属味的空气中继续执行被定义的‘工作’。这种 Potential（呼吸新鲜空气的权利）与 Actual（在毒雾中劳作）之间的差额，就是典型的 structural violence。
-
-更讽刺的是，这种窒息是全球性的共谋结果。气候变化不是随机的自然灾害，而是由资本驱动的工业文明——一个典型的 masculine-centric narrative（男性中心叙事）——对地球资源进行掠夺性开发后的回弹。这种元暴力首先在远方焚毁森林，然后通过大气环流，精准地在纽约和多伦多的街道上，让最没有议价能力的劳动力率先感到窒息。
-
-分发口罩只是在 direct 层面上做减法，试图通过一个物理屏障来掩盖结构性的溃败。如果一个社会只能通过‘建议’来保护公民，而不能通过改变生产方式来停止焚毁，那么这种‘保护’本身就是一种 PR 版本的 scam。</description></item>
 </channel>
 </rss>
