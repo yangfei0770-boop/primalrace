@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>用精致的清单对抗结构性不安全 — breaking news · 费扬</title>
+<meta name="description" content="极致的准备是对系统性失能的个体化代偿。 — 用《原初种族》的框架读新闻，费扬评论。">
+<meta name="author" content="费扬 Yang Fei">
+<link rel="canonical" href="https://www.howtoraiseiq.com/news/p/2736">
+<link rel="alternate" type="application/rss+xml" title="breaking news · 费扬" href="https://www.howtoraiseiq.com/news/feed.xml">
+<meta property="og:type" content="article">
+<meta property="og:title" content="用精致的清单对抗结构性不安全 — breaking news · 费扬">
+<meta property="og:description" content="极致的准备是对系统性失能的个体化代偿。">
+<meta property="og:url" content="https://www.howtoraiseiq.com/news/p/2736">
+<meta property="og:site_name" content="The Primal Race">
+<meta property="og:image" content="https://www.howtoraiseiq.com/og.png">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "\u7528\u7cbe\u81f4\u7684\u6e05\u5355\u5bf9\u6297\u7ed3\u6784\u6027\u4e0d\u5b89\u5168", "description": "\u6781\u81f4\u7684\u51c6\u5907\u662f\u5bf9\u7cfb\u7edf\u6027\u5931\u80fd\u7684\u4e2a\u4f53\u5316\u4ee3\u507f\u3002", "datePublished": "2026-07-23T04:51:09+00:00", "inLanguage": "zh", "author": {"@type": "Person", "name": "Yang Fei", "alternateName": "\u8d39\u626c"}, "mainEntityOfPage": "https://www.howtoraiseiq.com/news/p/2736", "isPartOf": {"@type": "WebSite", "name": "The Primal Race", "url": "https://www.howtoraiseiq.com"}}</script>
+<script>
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+// owner opt-out: visit once with ?me=1 to stop being counted on this device
+try {
+  var q = new URLSearchParams(location.search);
+  if (q.get('me') === '1') localStorage.setItem('pr-owner', '1');
+  if (q.get('me') === '0') localStorage.removeItem('pr-owner');
+} catch (e) {}
+// skip analytics for headless crawlers + the site owner
+if (!navigator.webdriver && localStorage.getItem('pr-owner') !== '1') {
+  ['/_vercel/insights/script.js', '/_vercel/speed-insights/script.js',
+   'https://www.googletagmanager.com/gtag/js?id=G-KRTMG8HV7F'].forEach(function (src) {
+    var s = document.createElement('script');
+    s.defer = true; s.src = src;
+    document.head.appendChild(s);
+  });
+  gtag('js', new Date());
+  gtag('config', 'G-KRTMG8HV7F');
+}
+</script>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --ink: #1a1109;
+  --paper: #f5f0e8;
+  --accent: #8b1a1a;
+  --accent-light: #b52020;
+  --muted: #6b5c47;
+  --border: #c9bfad;
+}
+html, body { min-height: 100%; }
+body {
+  background: var(--paper);
+  color: var(--ink);
+  font-family: "Georgia", "Noto Serif SC", "Source Han Serif CN", serif;
+  padding: 2.5rem 1.2rem 4rem;
+  line-height: 1.75;
+}
+body::before {
+  content: ""; position: fixed; inset: 0; pointer-events: none; z-index: 0;
+  background: repeating-linear-gradient(0deg,
+    transparent, transparent 28px,
+    rgba(0,0,0,0.025) 28px, rgba(0,0,0,0.025) 29px);
+}
+.wrap { max-width: 720px; margin: 0 auto; position: relative; z-index: 1; }
+
+header.masthead {
+  text-align: center;
+  border-bottom: 1px solid var(--border);
+  border-top: 5px solid var(--accent);
+  padding: 2.2rem 0 1.4rem;
+  margin-bottom: 2.4rem;
+  background: rgba(255,253,248,0.6);
+}
+.masthead .ornament {
+  color: var(--accent); font-size: 1.1rem;
+  letter-spacing: 0.4em; display: block; margin-bottom: 0.8rem;
+}
+.masthead h1 {
+  font-size: 2.4rem; font-weight: 700;
+  letter-spacing: 0.12em; line-height: 1.1;
+}
+.masthead h1 a { color: inherit; text-decoration: none; }
+.masthead .subtitle {
+  font-size: 0.85rem; letter-spacing: 0.22em;
+  text-transform: uppercase; color: var(--muted);
+  margin-top: 0.4rem;
+}
+.masthead .byline {
+  font-size: 0.82rem; color: var(--muted);
+  margin-top: 1rem; font-style: italic;
+}
+.masthead .byline a { color: var(--accent); text-decoration: none; }
+.masthead .byline a:hover { text-decoration: underline; }
+
+.crumbs {
+  margin-bottom: 1.6rem; font-size: 0.85rem;
+}
+.crumbs a { color: var(--accent); text-decoration: none; }
+.crumbs a:hover { text-decoration: underline; }
+
+article {
+  background: rgba(255,253,248,0.92);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--accent);
+  padding: 2rem 2.2rem 1.8rem;
+  margin-bottom: 2rem;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.05), 0 4px 16px rgba(0,0,0,0.04);
+}
+article.draft { border-left-color: var(--muted); opacity: 0.78; }
+article h2 {
+  font-size: 1.55rem; line-height: 1.35;
+  margin-bottom: 0.55rem; color: var(--ink);
+  letter-spacing: 0.02em;
+}
+article h2 a { color: inherit; text-decoration: none; }
+article h2 a:hover { color: var(--accent); }
+.meta {
+  font-size: 0.78rem; color: var(--muted);
+  letter-spacing: 0.05em; margin-bottom: 1.2rem;
+  display: flex; flex-wrap: wrap; gap: 0.8rem;
+  border-bottom: 1px dashed var(--border);
+  padding-bottom: 0.8rem;
+}
+.meta .tag {
+  background: var(--accent); color: #fff;
+  padding: 0.08rem 0.55rem; letter-spacing: 0.08em;
+  font-size: 0.72rem;
+}
+.meta .tag.good_news { background: #2d6a3e; }
+article.good_news { border-left-color: #2d6a3e; }
+article.good_news .axiom { color: #2d6a3e; border-left-color: #2d6a3e; }
+.meta .layer {
+  color: var(--accent); font-style: italic;
+}
+.meta .source a { color: var(--muted); text-decoration: none; }
+.meta .source a:hover { color: var(--accent); text-decoration: underline; }
+.meta .permalink a { color: var(--muted); text-decoration: none; }
+.meta .permalink a:hover { color: var(--accent); }
+
+.axiom {
+  font-size: 1.05rem; font-style: italic;
+  color: var(--accent);
+  border-left: 2px solid var(--accent);
+  padding-left: 0.9rem; margin-bottom: 1.2rem;
+  line-height: 1.55;
+}
+.body p {
+  margin-bottom: 1rem; text-align: justify;
+  text-indent: 2em;
+  font-size: 1.02rem;
+}
+.body p:last-child { margin-bottom: 0; }
+.body.lang-en p { text-indent: 0; }
+
+/* language toggle */
+.lang-switch {
+  position: fixed; top: 1rem; right: 1.2rem; z-index: 10;
+  background: rgba(255,253,248,0.95);
+  border: 1px solid var(--border);
+  font-family: inherit; font-size: 0.8rem;
+  letter-spacing: 0.12em;
+}
+.lang-switch button {
+  background: transparent; border: none; cursor: pointer;
+  padding: 0.45rem 0.85rem; font: inherit; color: var(--muted);
+  border-right: 1px solid var(--border);
+}
+.lang-switch button:last-child { border-right: none; }
+.lang-switch button.active { background: var(--accent); color: #fff; }
+body[data-lang="zh"] .lang-en { display: none; }
+body[data-lang="en"] .lang-zh { display: none; }
+body[data-lang="en"] .meta .layer { font-style: italic; }
+.no-translation {
+  font-size: 0.85rem; color: var(--muted);
+  font-style: italic; padding: 0.6rem 0;
+}
+
+.draft-badge {
+  display: inline-block; background: var(--muted); color: #fff;
+  font-size: 0.7rem; letter-spacing: 0.1em;
+  padding: 0.1rem 0.5rem; margin-left: 0.6rem;
+  vertical-align: middle;
+}
+
+footer.foot {
+  text-align: center; margin-top: 3.5rem;
+  font-size: 0.78rem; color: var(--muted);
+  letter-spacing: 0.18em;
+}
+footer.foot a { color: var(--accent); text-decoration: none; }
+
+@media (max-width: 560px) {
+  body { padding: 1.6rem 0.9rem 3rem; }
+  .masthead h1 { font-size: 1.8rem; }
+  article { padding: 1.4rem 1.2rem; }
+  article h2 { font-size: 1.3rem; }
+}
+</style>
+</head>
+<body data-lang="zh">
+
+<div class="lang-switch">
+  <button data-set="zh" class="active">中文</button>
+  <button data-set="en">EN</button>
+</div>
+
+<div class="wrap">
+
+<header class="masthead">
+  <span class="ornament">✦ &nbsp; ✦ &nbsp; ✦</span>
+  <h1><a href="/news/">breaking news</a></h1>
+  <div class="subtitle">News, read through The Primal Race</div>
+  <div class="byline">
+    <span class="lang-zh">by 费扬 &nbsp;·&nbsp; 数据 Claude &nbsp;·&nbsp;
+    <a href="/">回到《原初种族》</a> &nbsp;·&nbsp;
+    <a href="/news/feed.xml">RSS</a></span>
+    <span class="lang-en">by Yang Fei &nbsp;·&nbsp; data Claude &nbsp;·&nbsp;
+    <a href="/">back to The Primal Race</a> &nbsp;·&nbsp;
+    <a href="/news/feed.xml">RSS</a></span>
+  </div>
+</header>
+
+<div class="crumbs"><a href="/news/">← 全部评论 · all commentary</a></div>
+<article class="" id="a2736">
+  <h2><a href="/news/p/2736"><span class="lang-zh">用精致的清单对抗结构性不安全</span><span class="lang-en">Using Exquisite Lists to Combat Structural Insecurity</span></a></h2>
+  <div class="meta">
+    <span class="tag philosophy">哲学</span>
+    <span class="layer">结构层 · 文化层</span>
+    <span class="source"><a href="https://www.nytimes.com/wirecutter/reviews/tracee-ellis-ross-solo-travel-packing/?smid=bsky-nytimes&amp;smtyp=cur" target="_blank" rel="noopener">Wirecutter ↗</a></span>
+    <span class="date">2026-07-23</span>
+    <span class="permalink"><a href="/news/p/2736">§ 链接</a></span>
+  </div>
+  <div class="axiom lang-zh">极致的准备是对系统性失能的个体化代偿。</div>
+  <div class="axiom lang-en">Extreme preparation is an individualized compensation for systemic failure.</div>
+  <div class="body lang-zh"><p>Tracee Ellis Ross 的 Carry-on 清单是一次典型的“存在性战争”防御演习。从 12 岁丢失行李的创伤开始，她建立了一套极其精密的防御机制：用 Muji 分装瓶、KN95 口罩、马桶垫和医疗包，在不确定的公共空间里强行划出一块可控的、无菌的私人领地。这种对“Disaster”的预演，本质上是对 structural violence 的一种个体化响应——当个体意识到系统（航空公司、公共卫生环境、海关）是不可信且随时可能失效时，唯一能握在手里的权力就是“过度准备”。</p>
+  <p>有趣的是，这种防御被包装成了“Style”和“Beauty Fantasy”。当她把压力袜称为“Thigh high”以增加性感暗示，或者将敏感物品放入“beautiful bag”以缓解被 TSA 侵犯隐私的焦虑时，她实际上是在运用一种“最优解表达”：通过扮演一个精致的旅行者，来掩盖一个被系统性不安全感驱动的幸存者逻辑。这是一种极其聪明且体面的生存策略，将恐惧转化为审美，将对失控的焦虑转化为对细节的掌控权。</p>
+  <p>但这依然是一场孤独的博弈。无论清单多么完美，它无法消弭那个让 12 岁女孩感到绝望的、随时会吞噬个体财产的黑色洞穴。这种“精致的生存主义”揭示了一个残酷事实：在元暴力的结构中，弱势者（或意识到自己处于弱势的个体）必须支付极高的认知成本和时间成本，才能换取一份勉强接近“正常”的体面。当一个人需要花两周时间准备一个登机箱才能在旅途中感到安全时，这本身就是一种结构性的悲剧。</p></div>
+  <div class="body lang-en"><p>Tracee Ellis Ross&#x27;s carry-on list is a classic defensive drill in an existential war. Starting from the trauma of losing luggage at age 12, she built a precise defense mechanism: using Muji containers, KN95 masks, toilet seat covers, and medical kits to forcibly carve out a controllable, sterile private sanctuary within uncertain public spaces. This rehearsal for &quot;disaster&quot; is essentially an individualized response to structural violence—when an individual realizes the system (airlines, public health, customs) is unreliable and prone to failure, the only power left is &quot;over-preparation.&quot;</p>
+  <p>Interestingly, this defense is packaged as &quot;Style&quot; and &quot;Beauty Fantasy.&quot; When she calls compression stockings &quot;Thigh high&quot; to suggest sexiness, or places sensitive items in a &quot;beautiful bag&quot; to mitigate the anxiety of TSA privacy invasion, she is employing an optimal expression: by playing the role of a sophisticated traveler, she masks the survival logic driven by systemic insecurity. It is a clever and decent strategy, transforming fear into aesthetics and the anxiety of losing control into the power of managing details.</p>
+  <p>Yet, this remains a lonely game. No matter how perfect the list, it cannot erase the black hole that once devastated a 12-year-old girl. This &quot;exquisite survivalism&quot; reveals a brutal truth: within the framework of meta-violence, those in structural weakness (or those aware of it) must pay an exorbitant cognitive and temporal cost just to maintain a semblance of &quot;normal&quot; decency. When someone must spend two weeks preparing a carry-on just to feel safe during a trip, the preparation itself is a structural tragedy.</p></div>
+</article>
+
+<footer class="foot">
+  ― &nbsp; ― &nbsp; ―<br>
+  <a href="/news/">breaking news</a> &nbsp;·&nbsp; <a href="/">原初种族 The Primal Race</a>
+</footer>
+
+</div>
+
+<script>
+(function() {
+  var key = 'breaking-news-lang';
+  var saved = localStorage.getItem(key) || 'zh';
+  setLang(saved);
+  document.querySelectorAll('.lang-switch button').forEach(function(b) {
+    b.addEventListener('click', function() {
+      setLang(b.dataset.set);
+      localStorage.setItem(key, b.dataset.set);
+    });
+  });
+  function setLang(l) {
+    document.body.dataset.lang = l;
+    document.querySelectorAll('.lang-switch button').forEach(function(b) {
+      b.classList.toggle('active', b.dataset.set === l);
+    });
+  }
+})();
+</script>
+</body>
+</html>
